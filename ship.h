@@ -11,19 +11,23 @@
 class Ship
 {
 public:
-	Ship() : mVector(), rotation(0), isThrusting(false) {};
+	Ship() : mVector(), rotation(0), isThrusting(false), dead(false) {};
 
 	// getters
-	float getX()  { return mVector.getX();  };
-	float getY()  { return mVector.getY();  };
-	float getDx() { return mVector.getDx(); };
-	float getDy() { return mVector.getDy(); };
+	float getX()   { return mVector.getX();  };
+	float getY()   { return mVector.getY();  };
+	float getDx()  { return mVector.getDx(); };
+	float getDy()  { return mVector.getDy(); };
+	bool  isDead() { return dead; };
 	int getRotation() { return rotation; };
 
 	// setters
 	void setX(float x) { mVector.setX(x);   };
 	void setY(float y) { mVector.setY(y);   };
 	void setRotation(int r) { rotation = r; };
+	void setThrusting(bool thrust) { isThrusting = thrust; };
+	void kill()      { dead = true;  };
+	void resurrect() { dead = false; };
 
 	// update yourself
 	void update(const Interface * pUI);
@@ -35,6 +39,7 @@ private:
 	Vector mVector;
 	int rotation;
 	bool isThrusting;
+	bool dead;
 };
 
  #endif // _SHIP_H
