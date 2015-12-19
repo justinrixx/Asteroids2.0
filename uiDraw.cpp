@@ -333,16 +333,112 @@ void drawDot(const Point & point)
 }
 
 /**********************************************************************
+ * DRAW ASTEROID 
+ * @author Justin Ricks
+ * Draw an asteroid of a particular size and type. A type is an integer
+ * starting at 0 and going up to the number of different types. If none
+ * is passed in, the default will be drawn
+ **********************************************************************/
+void drawAsteroid(const Point & center, int rotation, float size, int type /*= 0*/)
+{
+   float sizex2 = size * 2;
+   int typemod = type % 3;
+
+   switch(type)
+   {
+      case 0:
+         drawAsteroid0(center, rotation, sizex2);
+         break;
+      case 1:
+         drawAsteroid1(center, rotation, sizex2);
+         break;
+      default:
+         drawAsteroid2(center, rotation, sizex2);
+         break;
+   }
+}
+
+/*******************************************
+* TYPE 0
+*******************************************/
+void drawAsteroid0(const Point & center, int rotation, float size)
+{
+
+   const PTF points[] = 
+   {
+      {-0.3, 0.4},  {-0.1, 0.4},   {0.3, 0.5},   
+      {0.4, 0.4},   {0.5, 0.2},  {0.4, -0.3}, 
+      {-0.2, -0.5}, {-0.5, -0.4}, {-0.3, -0.1},
+      {-0.4, -0.1},  {-0.3, 0.4}
+   };
+
+   glBegin(GL_LINE_STRIP);
+   for (int i = 0; i < sizeof(points)/sizeof(PTF); i++)
+   {
+      Point pt(center.getX() + (points[i].x * size), 
+               center.getY() + (points[i].y * size));
+      rotate(pt, center, rotation);
+      glVertex2f(pt.getX(), pt.getY());
+   }
+   glEnd();
+}
+
+/*******************************************
+* TYPE 1
+*******************************************/
+void drawAsteroid1(const Point & center, int rotation, float size)
+{
+
+   const PTF points[] = 
+   {
+      {-0.1, 0.5},  {0.3, 0.4},   {0.3, 0.2},   
+      {0.4, 0.1},   {0.5, -0.1},  {0.3, -0.4}, 
+      {-0.2, -0.5}, {-0.5, -0.2}, {-0.4, 0.0},
+      {-0.5, 0.3},  {-0.4, 0.4},  {-0.2, 0.4}, {-0.1, 0.5}
+   };
+
+   glBegin(GL_LINE_STRIP);
+   for (int i = 0; i < sizeof(points)/sizeof(PTF); i++)
+   {
+      Point pt(center.getX() + (points[i].x * size), 
+               center.getY() + (points[i].y * size));
+      rotate(pt, center, rotation);
+      glVertex2f(pt.getX(), pt.getY());
+   }
+   glEnd();
+}
+
+/*******************************************
+* TYPE 2
+*******************************************/
+void drawAsteroid2(const Point & center, int rotation, float size)
+{
+
+   const PTF points[] = 
+   {
+      {-0.3, 0.5},  {-0.1, 0.3},   {0.4, 0.4},   
+      {0.5, 0.2},   {0.4, -0.2},  {0.1, -0.4}, 
+      {-0.3, -0.5}, {-0.5, -0.1}, {-0.4, -0.1},
+      {-0.4, 0.3},  {-0.3, 0.5}
+   };
+
+   glBegin(GL_LINE_STRIP);
+   for (int i = 0; i < sizeof(points)/sizeof(PTF); i++)
+   {
+      Point pt(center.getX() + (points[i].x * size), 
+               center.getY() + (points[i].y * size));
+      rotate(pt, center, rotation);
+      glVertex2f(pt.getX(), pt.getY());
+   }
+   glEnd();
+}
+
+/**********************************************************************
  * DRAW SMALL ASTEROID
  **********************************************************************/
 void drawSmallAsteroid( const Point & center, int rotation)
 {
-   // ultra simple point
-   struct PT
-   {
-      int x;
-      int y;
-   } points[] = 
+   PT points[] = 
    {
       {-5, 9},  {4, 8},   {8, 4},   
       {8, -5},  {-2, -8}, {-2, -3}, 
@@ -365,12 +461,7 @@ void drawSmallAsteroid( const Point & center, int rotation)
  **********************************************************************/
 void drawMediumAsteroid( const Point & center, int rotation)
 {
-   // ultra simple point
-   struct PT
-   {
-      int x;
-      int y;
-   } points[] = 
+   PT points[] = 
    {
       {2, 8},    {8, 15},    {12, 8}, 
       {6, 2},    {12, -6},   {2, -15},
@@ -394,12 +485,7 @@ void drawMediumAsteroid( const Point & center, int rotation)
  **********************************************************************/
 void drawLargeAsteroid( const Point & center, int rotation)
 {
-   // ultra simple point
-   struct PT
-   {
-      int x;
-      int y;
-   } points[] = 
+   PT points[] = 
    {
       {0, 12},    {8, 20}, {16, 14},
       {10, 12},   {20, 0}, {0, -20},
@@ -427,12 +513,6 @@ void drawLargeAsteroid( const Point & center, int rotation)
  *************************************************************************/
 void drawShip(const Point & center, int rotation, bool thrust)
 {
-   // ultra simple point
-   struct PT
-   {
-      int x;
-      int y;
-   };
    
    // draw the ship                                                 
    const PT pointsShip[] = 

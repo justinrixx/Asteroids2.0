@@ -85,6 +85,18 @@ void drawSmallAsteroid( const Point & point, int rotation);
 void drawMediumAsteroid(const Point & point, int rotation);
 void drawLargeAsteroid( const Point & point, int rotation);
 
+/**********************************************************************
+ * DRAW ASTEROID 
+ * @author Justin Ricks
+ * Draw an asteroid of a particular size and type. A type is an integer
+ * starting at 0 and going up to the number of different types. If none
+ * is passed in, the default will be drawn
+ **********************************************************************/
+void drawAsteroid(const Point & center, int rotation, float size, int type = 0);
+void drawAsteroid0(const Point & center, int rotation, float size);
+void drawAsteroid1(const Point & center, int rotation, float size);
+void drawAsteroid2(const Point & center, int rotation, float size);
+
 /******************************************************************
  * RANDOM
  * This function generates a random number.  The user specifies
@@ -94,6 +106,21 @@ void drawLargeAsteroid( const Point & point, int rotation);
  ****************************************************************/
 int    random(int    min, int    max);
 double random(double min, double max);
+
+/******************************************************************
+* ultra simple point struct
+******************************************************************/
+struct PT
+{
+	int x;
+    int y;
+};
+
+struct PTF
+{
+	float x;
+    float y;
+};
 
 
 #endif // UI_DRAW_H

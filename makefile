@@ -5,6 +5,10 @@
 #########################################################
 # Component drivers
 #########################################################
+drawTest: point.h uiDraw.o uiInteract.o drawTest.cpp
+	g++ -o drawTest drawTest.cpp uiDraw.o uiInteract.o -lglut -lGL -lGLU
+rockDriver: rock.h uiDraw.o uiInteract.o rockDriver.cpp
+	g++ -o rockDriver rockDriver.cpp uiDraw.o uiInteract.o -lglut -lGL -lGLU
 playerDriver: player.o ship.o uiDraw.o uiInteract.o ai.h playerDriver.cpp
 	g++ -o playerDriver playerDriver.cpp player.o ship.o uiDraw.o uiInteract.o -lglut -lGL -lGLU
 shipDriver: ship.o uiDraw.o uiInteract.o shipDriver.cpp
