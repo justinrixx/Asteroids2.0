@@ -20,7 +20,7 @@ public:
 
 protected:
 	/* OVERRIDE THIS */
-	void move(Ship & playerShip);
+	virtual void move(Ship & playerShip) = 0;
 
 	/* Don't touch this */
 	void getClosestRocks();
