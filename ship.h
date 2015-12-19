@@ -30,10 +30,10 @@ public:
 	void resurrect() { dead = false; };
 
 	// update yourself
-	void update(const Interface * pUI);
+	virtual void update(const Interface * pUI);
 
 	// draw yourself
-	void draw();
+	virtual void draw();
 
 private:
 	Vector mVector;
