@@ -10,14 +10,15 @@
  #define _ROCK_H
 
 /* Differentiate between sizes */
- #define SMALL_ROCK 0
- #define MED_ROCK 1
- #define LARGE_ROCK 2
+ #define SMALL_SIZE 8
+ #define MED_SIZE 12
+ #define LARGE_SIZE 16
 
 class Rock
 {
 public:
-	Rock() : mVector(), rotation(0), dead(false) {};
+	//                                             random type
+	Rock() : mVector(), rotation(0), dead(false) { type = random(0, 2); };
 
 	// getters
 	float getX()   { return mVector.getX();  };
@@ -43,15 +44,16 @@ public:
 	}
 
 	// draw yourself
-	virtual void draw() { drawSmallAsteroid(mVector.getPoint(), rotation); };
+	virtual void draw() { drawAsteroid(mVector.getPoint(), rotation, SMALL_SIZE, type); };
 
 	// what size are you?
-	virtual int getSize() { return SMALL_ROCK; };
+	virtual int getSize() { return SMALL_SIZE; };
 
 protected:
 	Vector mVector;
 	int rotation;
 	bool dead;
+	int type;
 };
 
 /**************************************************
@@ -62,27 +64,27 @@ class SRock : public Rock
 {
 public:
 
-	virtual void draw() { drawSmallAsteroid(mVector.getPoint(), rotation); };
+	virtual void draw() { drawAsteroid(mVector.getPoint(), rotation, SMALL_SIZE, type); };
 
-	virtual int getSize() { return SMALL_ROCK; };
+	virtual int getSize() { return SMALL_SIZE; };
 };
 
 class MRock : public Rock
 {
 public:
 
-	virtual void draw() { drawMediumAsteroid(mVector.getPoint(), rotation); };
+	virtual void draw() { drawAsteroid(mVector.getPoint(), rotation, MED_SIZE, type); };
 
-	virtual int getSize() { return MED_ROCK; };
+	virtual int getSize() { return MED_SIZE; };
 };
 
 class LRock : public Rock
 {
 public:
 
-	virtual void draw() { drawLargeAsteroid(mVector.getPoint(), rotation); };
+	virtual void draw() { drawAsteroid(mVector.getPoint(), rotation, LARGE_SIZE, type); };
 
-	virtual int getSize() { return LARGE_ROCK; };
+	virtual int getSize() { return LARGE_SIZE; };
 };
 
  #endif // _SHIP_H

@@ -1,3 +1,4 @@
+#include <list>
 #include "rock.h"
 #include "uiDraw.h"
 #include "uiInteract.h"
