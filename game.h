@@ -1,15 +1,51 @@
-/*****************************************************
- * AI Class
- * This class is essentially just an interface. To make
- * a concrete AI, extend this class and implement the
- * move() method.
- *****************************************************/
- #include "ship.h"
- #include <iostream> // for null
+/******************************************************
+* The Game Class
+* This class puts all the individual pieces together.
+******************************************************/
 
- #ifndef _AI_H
- #define _AI_H
+#ifndef _GAME_H
+#define _GAME_H
 
+#include <list>
+#include "uiDraw.h"
+#include "uiInteract.h"
+#include "ship.h"
+#include "rock.h"
+#include "player.h"
+#include "bullet.h"
+
+class AI;
+
+class Game
+{
+public:
+
+	Game() : mPlayer() {};
+
+	// update everything
+	void update(Interface * pUI);
+
+	// draw everything
+	void draw();
+
+	// set up the AI
+	void setAI(AI * ai) { pAI = ai; };
+
+	// get the rocks. used by the AI
+	std::list<Rock *> & getRocks() { return rocks; };
+
+private:
+	AI * pAI;
+	Player mPlayer;
+	std::list<Rock *> rocks;
+	std::list<Bullet *> bullets;
+	std::list<Bullet *> debris;
+};
+
+
+/******************************************************************
+* The AI class lives here as well
+******************************************************************/
 class AI
 {
 public:
@@ -48,6 +84,9 @@ protected:
 	/* Don't touch these */
 	void getClosestRocks()
 	{
+		std::list<Rock *> rocks = pGame->getRocks();
+
+		
 		for (int i = 0; i < 5; i++)
 			closestRocks[i] = NULL;
 	}
@@ -60,8 +99,8 @@ protected:
 
     	if (isUpPressed)
 		{
-			playerShip.setDx(playerShip.getDx() - (.2 * sin(deg2rad(rotation))));
-	    	playerShip.setDy(playerShip.getDy() + (.2 * cos(deg2rad(rotation))));
+			playerShip.setDx(playerShip.getDx() - (.2 * sin(deg2rad(playerShip.getRotation()))));
+	    	playerShip.setDy(playerShip.getDy() + (.2 * cos(deg2rad(playerShip.getRotation()))));
     		playerShip.setThrusting(true);
 		}
 		else
@@ -74,8 +113,9 @@ protected:
 	}
 
 	// The AI has an eye on where the enemy rocks are
-	Rock * [5] closestRocks;
-	//the AI needs a pointer to the game
+	Rock * closestRocks[5];
+
+	// the AI needs a pointer to the game
 	Game * pGame;
 
 	// a boolean to keep track of what buttons to push at each frame
@@ -84,4 +124,5 @@ protected:
 	bool isRightPressed;
 	bool isSpacePressed;
 };
-#endif // _AI_H
+
+#endif // _GAME_H
