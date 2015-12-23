@@ -20,7 +20,7 @@ class Game
 {
 public:
 
-	Game() : mPlayer() {};
+	Game() : mPlayer(), score(0) {};
 
 	// update everything
 	void update(Interface * pUI);
@@ -34,12 +34,15 @@ public:
 	// get the rocks. used by the AI
 	std::list<Rock *> & getRocks() { return rocks; };
 
+	int getScore() { return score; };
+
 private:
 	AI * pAI;
 	Player mPlayer;
 	std::list<Rock *> rocks;
 	std::list<Bullet *> bullets;
 	std::list<Bullet *> debris;
+	int score;
 };
 
 
