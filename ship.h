@@ -22,8 +22,10 @@ public:
 	int getRotation() { return rotation; };
 
 	// setters
-	void setX(float x) { mVector.setX(x);   };
-	void setY(float y) { mVector.setY(y);   };
+	void setX(float x)   { mVector.setX(x);   };
+	void setY(float y)   { mVector.setY(y);   };
+	void setDx(float dx) { mVector.setDx(dx); };
+	void setDy(float dy) { mVector.setDy(dy); };  
 	void setRotation(int r) { rotation = r; };
 	void setThrusting(bool thrust) { isThrusting = thrust; };
 	void kill()      { dead = true;  };
@@ -31,6 +33,9 @@ public:
 
 	// update yourself
 	virtual void update(const Interface * pUI);
+
+	// update the vector
+	void updateVector() { mVector.update(); };
 
 	// draw yourself
 	virtual void draw();

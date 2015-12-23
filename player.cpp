@@ -21,10 +21,10 @@ void Player :: update(const Interface * pUI, AI * pAI)
 			mShip.update(pUI);
 		
 		// handle the AI case
-		/*else
+		else
 		{
 			pAI->update(mShip);
-		}*/
+		}
 	}
 	// TODO handle the dead case
 	// else
