@@ -36,6 +36,8 @@ public:
 
    void operator = (const Point & pt) { this->x = pt.x; this->y = pt.y; };
 
+   void init() { x = 0.0; y = 0.0; };
+
 protected:
    float x;
    float y;

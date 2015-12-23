@@ -2,10 +2,11 @@
  * Player Class method definitions
  *****************************************************/
  #include <iostream> // for null
+ #include <ctime>    // for clock()
  #include "player.h"
  #include "ship.h"
  #include "uiInteract.h"
- #include "ai.h"
+ #include "game.h"
 
 /* Update yourself. This requires the interface (to get user input)
 *    and an AI object as well, in order to get input from the AI.
@@ -26,8 +27,21 @@ void Player :: update(const Interface * pUI, AI * pAI)
 			pAI->update(mShip);
 		}
 	}
-	// TODO handle the dead case
-	// else
+	// otherwise, the ship is dead
+	else
+	{
+		// if we just died
+		if (nextTick == NULL_TICK)
+			nextTick = (clock() / 1000) + 4;
+		
+		// if it's time to resurrect
+		else if ((clock() / 1000) >= nextTick)
+		{
+			--numLives;
+			init();
+		}
+		// otherwise, do nothing
+	}
 }
 
 /*******************************************************************

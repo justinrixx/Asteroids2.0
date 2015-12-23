@@ -93,4 +93,4 @@ public:
 	virtual int getSize() { return LARGE_SIZE; };
 };
 
- #endif // _SHIP_H
+ #endif // _ROCK_H

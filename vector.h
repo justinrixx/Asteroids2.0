@@ -53,6 +53,13 @@ public:
 		return 0.0;
 	}
 
+	void init()
+	{
+		pt.init();
+		dx = 0.0;
+		dy = 0.0;
+	}
+
 private:
 	Point pt;
 	float dx;

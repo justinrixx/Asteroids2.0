@@ -11,7 +11,7 @@
 class Ship
 {
 public:
-	Ship() : mVector(), rotation(0), isThrusting(false), dead(false) {};
+	Ship() { init(); };
 
 	// getters
 	float getX()   { return mVector.getX();  };
@@ -36,6 +36,14 @@ public:
 
 	// update the vector
 	void updateVector() { mVector.update(); };
+
+	void init()
+	{
+		mVector.init();
+		rotation = 0;
+		isThrusting = false;
+		dead = false;
+	}
 
 	// draw yourself
 	virtual void draw();
