@@ -11,8 +11,8 @@
 
 /* Differentiate between sizes */
  #define SMALL_SIZE 8
- #define MED_SIZE 12
- #define LARGE_SIZE 16
+ #define MED_SIZE 14
+ #define LARGE_SIZE 22
 
 class Rock
 {
@@ -64,6 +64,8 @@ class SRock : public Rock
 {
 public:
 
+	SRock() { Rock(); };
+
 	virtual void draw() { drawAsteroid(mVector.getPoint(), rotation, SMALL_SIZE, type); };
 
 	virtual int getSize() { return SMALL_SIZE; };
@@ -73,6 +75,8 @@ class MRock : public Rock
 {
 public:
 
+	MRock() { Rock(); };
+
 	virtual void draw() { drawAsteroid(mVector.getPoint(), rotation, MED_SIZE, type); };
 
 	virtual int getSize() { return MED_SIZE; };
@@ -81,6 +85,8 @@ public:
 class LRock : public Rock
 {
 public:
+
+	LRock() { Rock(); };
 
 	virtual void draw() { drawAsteroid(mVector.getPoint(), rotation, LARGE_SIZE, type); };
 
