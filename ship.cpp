@@ -4,6 +4,7 @@
 #include "ship.h"
 #include "uiInteract.h"
 #include "uiDraw.h"
+#include "point.h"
 
 /*****************************************
 * Handle user input and update the position
@@ -35,6 +36,30 @@ void Ship :: update(const Interface * pUI)
 * Delegate the drawing to the library function
 **********************************************/
 void Ship :: draw()
-{ 
-	drawShip(mVector.getPoint(), rotation, isThrusting);
+{
+	// double point_max
+	float dpm = POINT_MAX * 2.0;
+
+	// draw where you are
+	Point temp = mVector.getPoint();
+	drawShip(temp, rotation, isThrusting);
+
+	// to the right
+	temp.setX(temp.getX() + dpm);
+	drawShip(temp, rotation, isThrusting);
+	temp.setX(temp.getX() - dpm);
+
+	// to the left
+	temp.setX(temp.getX() - dpm);
+	drawShip(temp, rotation, isThrusting);
+	temp.setX(temp.getX() + dpm);
+
+	// above
+	temp.setY(temp.getY() + dpm);
+	drawShip(temp, rotation, isThrusting);
+	temp.setY(temp.getY() - dpm);
+
+	// below
+	temp.setY(temp.getY() - dpm);
+	drawShip(temp, rotation, isThrusting);
 }
