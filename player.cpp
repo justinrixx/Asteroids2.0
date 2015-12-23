@@ -6,7 +6,9 @@
  #include "player.h"
  #include "ship.h"
  #include "uiInteract.h"
+ #include "uiDraw.h"
  #include "game.h"
+ #include "point.h"
 
 /* Update yourself. This requires the interface (to get user input)
 *    and an AI object as well, in order to get input from the AI.
@@ -53,6 +55,7 @@ void Player :: draw()
 {
 	mShip.draw();
 
-	// TODO draw the extra lives
+	// draw the extra lives
+	for (int i = 0; i < numLives; i++)
+		drawShip(Point((POINT_MAX - (i + 1) * 20.0), -POINT_MAX + 20.0), 0, false);
 }
-
