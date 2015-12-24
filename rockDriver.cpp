@@ -23,7 +23,6 @@ void callBack(const Interface *pUI, void *p)
   for (; it != end; ++it)
   {
     (*it)->update();
-    (*it)->setRotation((*it)->getRotation() + 3);
     (*it)->draw();
   }
 }

@@ -5,6 +5,7 @@
  #include "vector.h"
  #include "uiDraw.h"
  #include "uiInteract.h"
+ #include "point.h"
 
  #ifndef _ROCK_H
  #define _ROCK_H
@@ -17,8 +18,13 @@
 class Rock
 {
 public:
-	//                                             random type
-	Rock() : mVector(), rotation(0), dead(false) { type = random(0, 2); };
+	Rock() : mVector(), dead(false)
+	{
+		rotation = random(0, 360);
+		dr = random(-8, 8);
+		type = random(0, 2);
+		mVector.setX(POINT_MAX);
+	}
 
 	// getters
 	float getX()   { return mVector.getX();  };
@@ -41,6 +47,8 @@ public:
 	void update()
 	{
 		mVector.update();
+		rotation += dr;
+		rotation = rotation % 360;
 	}
 
 	// draw yourself
@@ -52,6 +60,7 @@ public:
 protected:
 	Vector mVector;
 	int rotation;
+	int dr;
 	bool dead;
 	int type;
 };
