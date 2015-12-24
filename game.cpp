@@ -6,6 +6,8 @@
 #include "uiDraw.h"
 #include "point.h"
 
+using namespace std;
+
 /*************************************************************
 * Game :: draw
 * This method draws all the elements to the screen
@@ -40,12 +42,12 @@ void Game :: draw()
 * components of the game are updated. It handles collisions
 * as well.
 ************************************************************/
-void Game :: update()
+void Game :: update(const Interface * pUI)
 {
 	// TODO collision detection
 
 	// update the player
-	mPlayer.update();
+	mPlayer.update(pUI, pAI, this);
 
 	// update the rocks
 	list<Rock *>::iterator itr;

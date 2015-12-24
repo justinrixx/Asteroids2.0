@@ -3,6 +3,13 @@
 #########################################################
 
 #########################################################
+# The real deal
+#########################################################
+gameDriver: game.o gameDriver.cpp point.h bullet.h uiInteract.o uiDraw.o player.o ship.o rock.h bullet.h vector.h
+	g++ -o gameDriver gameDriver.cpp game.o uiDraw.o uiInteract.o player.o ship.o -lglut -lGL -lGLU
+
+
+#########################################################
 # Component drivers
 #########################################################
 bulletDriver: point.h bullet.h uiInteract.o uiDraw.o bulletDriver.cpp
@@ -19,6 +26,8 @@ shipDriver: ship.o uiDraw.o uiInteract.o shipDriver.cpp
 #########################################################
 # Individual components
 #########################################################
+game.o: game.h game.cpp uiDraw.o uiInteract.o player.o ship.o rock.h bullet.h point.h vector.h
+	g++ -c game.cpp
 player.o: player.h player.cpp uiDraw.o uiInteract.o ship.h game.h
 	g++ -c player.cpp
 ship.o: ship.h ship.cpp uiDraw.o uiInteract.o

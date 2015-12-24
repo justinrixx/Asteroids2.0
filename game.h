@@ -7,6 +7,7 @@
 #define _GAME_H
 
 #include <list>
+#include <iostream> // for null
 #include "uiDraw.h"
 #include "uiInteract.h"
 #include "ship.h"
@@ -20,10 +21,25 @@ class Game
 {
 public:
 
-	Game() : mPlayer(), score(0) {};
+	Game() : mPlayer(), score(0), pAI(NULL) {};
+
+	// add a bullet
+	void addBullet(Bullet * pBullet)
+	{
+		if (bullets.size() < 6)
+			bullets.push_back(pBullet);
+		else
+			delete pBullet;
+	}
+
+	// add a rock
+	void addRock(Rock * pRock) { rocks.push_back(pRock); };
+
+	// add debris
+	void addDebris(Bullet * pDebris) { debris.push_back(pDebris); };
 
 	// update everything
-	void update(Interface * pUI);
+	void update(const Interface * pUI);
 
 	// draw everything
 	void draw();
