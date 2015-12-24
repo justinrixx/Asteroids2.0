@@ -27,12 +27,12 @@ public:
 	}
 
 	// getters
-	float getX()   { return mVector.getX();  };
-	float getY()   { return mVector.getY();  };
-	float getDx()  { return mVector.getDx(); };
-	float getDy()  { return mVector.getDy(); };
-	bool  isDead() { return dead; };
-	int getRotation() { return rotation; };
+	float getX()      const { return mVector.getX();  };
+	float getY()      const { return mVector.getY();  };
+	float getDx()     const { return mVector.getDx(); };
+	float getDy()     const { return mVector.getDy(); };
+	bool  isDead()    const { return dead; };
+	int getRotation() const { return rotation; };
 
 	// setters
 	void setX(float x)   { mVector.setX(x);   };
@@ -52,7 +52,34 @@ public:
 	}
 
 	// draw yourself
-	virtual void draw() { drawAsteroid(mVector.getPoint(), rotation, SMALL_SIZE, type); };
+	void draw()
+	{
+		// double point_max
+		float dpm = POINT_MAX * 2.0;
+
+		// draw where you are
+		Point temp = mVector.getPoint();
+		drawAsteroid(temp, rotation, getSize(), type);
+
+		// to the right
+		temp.setX(temp.getX() + dpm);
+		drawAsteroid(temp, rotation, getSize(), type);
+		temp.setX(temp.getX() - dpm);
+
+		// to the left
+		temp.setX(temp.getX() - dpm);
+		drawAsteroid(temp, rotation, getSize(), type);
+		temp.setX(temp.getX() + dpm);
+
+		// above	
+		temp.setY(temp.getY() + dpm);
+		drawAsteroid(temp, rotation, getSize(), type);
+		temp.setY(temp.getY() - dpm);
+
+		// below
+		temp.setY(temp.getY() - dpm);
+		drawAsteroid(temp, rotation, getSize(), type);
+	}
 
 	// what size are you?
 	virtual int getSize() { return SMALL_SIZE; };
@@ -75,8 +102,6 @@ public:
 
 	SRock() { Rock(); };
 
-	virtual void draw() { drawAsteroid(mVector.getPoint(), rotation, SMALL_SIZE, type); };
-
 	virtual int getSize() { return SMALL_SIZE; };
 };
 
@@ -86,8 +111,6 @@ public:
 
 	MRock() { Rock(); };
 
-	virtual void draw() { drawAsteroid(mVector.getPoint(), rotation, MED_SIZE, type); };
-
 	virtual int getSize() { return MED_SIZE; };
 };
 
@@ -96,8 +119,6 @@ class LRock : public Rock
 public:
 
 	LRock() { Rock(); };
-
-	virtual void draw() { drawAsteroid(mVector.getPoint(), rotation, LARGE_SIZE, type); };
 
 	virtual int getSize() { return LARGE_SIZE; };
 };
