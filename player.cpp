@@ -14,14 +14,14 @@
 *    and an AI object as well, in order to get input from the AI.
 *    If no AI is used, pass a null reference.
 */
-void Player :: update(const Interface * pUI, AI * pAI)
+void Player :: update(const Interface * pUI, AI * pAI, void * pGame)
 {
 	// First of all, make sure you're not dead
 	if (!mShip.isDead())
 	{
 		// If no AI, use the keyboard
 		if (pAI == NULL)
-			mShip.update(pUI);
+			mShip.update(pUI, pGame);
 		
 		// handle the AI case
 		else

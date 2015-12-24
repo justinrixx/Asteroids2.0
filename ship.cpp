@@ -1,28 +1,44 @@
 /*************************************************
 * All the ship's interesting stuff happens here
 *************************************************/
+#include <cmath>
 #include "ship.h"
 #include "uiInteract.h"
 #include "uiDraw.h"
 #include "point.h"
+#include "game.h"
 
 /*****************************************
 * Handle user input and update the position
 *****************************************/
-void Ship :: update(const Interface * pUI)
+void Ship :: update(const Interface * pUI, void * pGame)
 {
+	// fire a bullet
+	if (pUI->isSpace())
+	{	
+		Game * game = (Game *)pGame;
+
+		Bullet * p = new Bullet();
+		p->setX(mVector.getX() - getSize() * sin(deg2rad(rotation)));
+		p->setY(mVector.getY() + getSize() * cos(deg2rad(rotation)));
+		p->setDx(mVector.getDx() - BULLET_SPEED * sin(deg2rad(rotation)));
+		p->setDy(mVector.getDy() + BULLET_SPEED * cos(deg2rad(rotation)));
+
+		game->addBullet(p);
+	}
+	// rotate
 	if (pUI->isRight())
 		rotation -= 7;
 	if (pUI->isLeft())
     	rotation += 7;
 
+    // thrust
 	if (pUI->isUp())
 	{
     	mVector.setDx(mVector.getDx() - (.2 * sin(deg2rad(rotation))));
     	mVector.setDy(mVector.getDy() + (.2 * cos(deg2rad(rotation))));
     	isThrusting = true;
 	}
-
 	else
 		isThrusting = false;
 
@@ -37,6 +53,11 @@ void Ship :: update(const Interface * pUI)
 **********************************************/
 void Ship :: draw()
 {
+	// DEBUG draw the ship's size around the ship
+	// I used this to determine what the ship size
+	// should be
+	// drawCircle(mVector.getPoint(), getSize());
+
 	// double point_max
 	float dpm = POINT_MAX * 2.0;
 

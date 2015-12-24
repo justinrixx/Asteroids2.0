@@ -22,7 +22,7 @@ public:
 	*    and an AI object as well, in order to get input from the AI.
 	*    If no AI is used, pass a null reference.
 	*/
-	void update(const Interface * pUI, AI * pAI);
+	void update(const Interface * pUI, AI * pAI, void * pGame);
 
 	// draw yourself
 	void draw();
