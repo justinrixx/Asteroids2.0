@@ -5,6 +5,8 @@
 #########################################################
 # Component drivers
 #########################################################
+bulletDriver: point.h bullet.h uiInteract.o uiDraw.o bulletDriver.cpp
+	g++ -o bulletDriver bulletDriver.cpp uiDraw.o uiInteract.o -lglut -lGL -lGLU
 drawTest: point.h uiDraw.o uiInteract.o drawTest.cpp
 	g++ -o drawTest drawTest.cpp uiDraw.o uiInteract.o -lglut -lGL -lGLU
 rockDriver: rock.h uiDraw.o uiInteract.o rockDriver.cpp
