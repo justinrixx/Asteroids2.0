@@ -8,6 +8,9 @@
  #ifndef _SHIP_H
  #define _SHIP_H
 
+ #define SHIP_SIZE 8
+ #define BULLET_SPEED 4
+
 class Ship
 {
 public:
@@ -20,6 +23,7 @@ public:
 	float getDy()  { return mVector.getDy(); };
 	bool  isDead() { return dead; };
 	int getRotation() { return rotation; };
+	int getSize()  { return SHIP_SIZE; };
 
 	// setters
 	void setX(float x)   { mVector.setX(x);   };
@@ -32,7 +36,7 @@ public:
 	void resurrect() { dead = false; };
 
 	// update yourself
-	virtual void update(const Interface * pUI);
+	virtual void update(const Interface * pUI, void * pGame);
 
 	// update the vector
 	void updateVector() { mVector.update(); };
