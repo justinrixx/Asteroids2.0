@@ -8,7 +8,7 @@
  #define _BULLET_H
 
 /* Differentiate between sizes */
- #define BULLET_LIFE 120
+ #define BULLET_LIFE 70
 
 class Bullet
 {

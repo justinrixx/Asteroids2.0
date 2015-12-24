@@ -9,7 +9,7 @@
  #define _SHIP_H
 
  #define SHIP_SIZE 8
- #define BULLET_SPEED 4
+ #define BULLET_SPEED 6
 
 class Ship
 {

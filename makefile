@@ -30,7 +30,7 @@ game.o: game.h game.cpp uiDraw.o uiInteract.o player.o ship.o rock.h bullet.h po
 	g++ -c game.cpp
 player.o: player.h player.cpp uiDraw.o uiInteract.o ship.h game.h
 	g++ -c player.cpp
-ship.o: ship.h ship.cpp uiDraw.o uiInteract.o
+ship.o: ship.h ship.cpp uiDraw.o uiInteract.o bullet.h
 	g++ -c ship.cpp
 uiDraw.o: uiDraw.cpp uiDraw.h point.h
 	g++ -c uiDraw.cpp
