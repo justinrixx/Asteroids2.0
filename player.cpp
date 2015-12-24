@@ -34,7 +34,7 @@ void Player :: update(const Interface * pUI, AI * pAI)
 	{
 		// if we just died
 		if (nextTick == NULL_TICK)
-			nextTick = (clock() / 1000) + 4;
+			nextTick = (clock() / 1000) + 2;
 		
 		// if it's time to resurrect
 		else if ((clock() / 1000) >= nextTick)
@@ -53,7 +53,8 @@ void Player :: update(const Interface * pUI, AI * pAI)
 *******************************************************************/
 void Player :: draw()
 {
-	mShip.draw();
+	if (!mShip.isDead())
+		mShip.draw();
 
 	// draw the extra lives
 	for (int i = 0; i < numLives; i++)
