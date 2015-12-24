@@ -8,7 +8,7 @@
  #define _BULLET_H
 
 /* Differentiate between sizes */
- #define BULLET_LIFE 300
+ #define BULLET_LIFE 120
 
 class Bullet
 {
@@ -51,6 +51,5 @@ protected:
 	int life;
 	bool dead;
 };
-
 
  #endif // _BULLET_H
