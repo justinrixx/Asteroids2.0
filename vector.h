@@ -2,6 +2,8 @@
  * Vector Class
  * A vector is just a point, plus direction.
  *****************************************************/
+ #include <cmath>
+ #include <stdlib.h>
  #include "point.h"
 
  #ifndef _VECTOR_H
@@ -17,11 +19,11 @@ public:
 	 { pt.setX(x); pt.setY(y); };
 
 	// getters
-	float getX()  { return pt.getX(); };
-	float getY()  { return pt.getY(); };
-	float getDx() { return dx; };
-	float getDy() { return dy; };
-	const Point & getPoint() { return pt; };
+	float getX()  const { return pt.getX(); };
+	float getY()  const { return pt.getY(); };
+	float getDx() const { return dx; };
+	float getDy() const { return dy; };
+	const Point & getPoint() const { return pt; };
 
 	// setters
 	void setX( float x ) { pt.setX(x); };
@@ -47,10 +49,25 @@ public:
 		setY(pt.getY() + dy);
 	}
 
-	// TODO minDistance
-	float minDistance(const Vector & rhs)
+	float minDistance(const Vector & rhs) const
 	{
-		return 0.0;
+		float distance = 0;
+   		float maxD = max(abs(dx), abs(dy), abs(rhs.dx), abs(rhs.dy));
+
+   		//for the first pixel
+		float minD = (((pt.getX() - rhs.getX()) * (pt.getX() - rhs.getX()))
+			+ ((pt.getY() - rhs.getY()) * (pt.getY() - rhs.getY())));
+
+		for (int i = 1; i < maxD; i++) //for every pixel after that
+		{
+			distance = ((((pt.getX() + dx * i / maxD) - (rhs.getX() + rhs.dx * i / maxD)) 
+				* ((pt.getX() + dx * i / maxD) - (rhs.getX() + rhs.dx * i / maxD)))
+                   + (((pt.getY() + dy * i / maxD) - (rhs.getY() + rhs.dy * i / maxD)) 
+                   	* ((pt.getY() + dy * i / maxD) - (rhs.getY() + rhs.dy * i / maxD))));
+
+      		minD = min(minD, distance);
+   		}
+   		return sqrt(minD);
 	}
 
 	void init()
@@ -64,6 +81,30 @@ private:
 	Point pt;
 	float dx;
 	float dy;
+
+	/*** Some utility methods used by minDistance ***/
+	float min(const float a, const float b) const
+	{
+ 		if (a < b)
+ 			return a;
+ 		return b;
+	}
+
+	float max(const float a, const float b) const
+	{
+ 		if (a > b)
+ 			return a;
+ 		return b;
+ 	}
+
+ 	float max(const float a, const float b, const float c, const float d) const
+ 	{
+ 		float ab = max(a, b);
+ 		float cd = max(c, d);
+ 		if (ab > cd)
+ 			return ab;
+ 		return cd;
+	}
 };
 
  #endif // _VECTOR_H
