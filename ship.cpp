@@ -13,6 +13,8 @@
 *****************************************/
 void Ship :: update(const Interface * pUI, void * pGame)
 {
+	isThrusting = false;
+
 	// fire a bullet
 	if (pUI->isSpace())
 	{	
@@ -39,8 +41,6 @@ void Ship :: update(const Interface * pUI, void * pGame)
     	mVector.setDy(mVector.getDy() + (.2 * cos(deg2rad(rotation))));
     	isThrusting = true;
 	}
-	else
-		isThrusting = false;
 
 	// now update the location
 	mVector.update();
