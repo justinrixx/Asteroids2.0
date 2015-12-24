@@ -1,5 +1,5 @@
+#include <iostream>
 #include "game.h"
-#include "simpleAI.h"
 #include "uiDraw.h"
 #include "uiInteract.h"
 
@@ -32,10 +32,10 @@ int main(int argc, char ** argv)
   Game * pGame = new Game();
 
   // instantiate an AI
-  SimpleAI ai(pGame);
+  // SimpleAI ai(pGame);
 
   // the game needs a reference to the AI
-  pGame->setAI(&ai);
+  pGame->setAI(NULL);
 
   Interface ui(argc, argv, "Game Test");
   ui.run(callBack, pGame);
