@@ -1,12 +1,14 @@
 /*****************************************************
  * Player Class
+ * The player ship is encapsulated within the player
+ * class
  *****************************************************/
+ #ifndef _PLAYER_H
+ #define _PLAYER_H
+
  #include <iostream> // for null
  #include "ship.h"
  #include "uiInteract.h"
-
- #ifndef _PLAYER_H
- #define _PLAYER_H
 
  #define NULL_TICK -1
 
@@ -27,8 +29,16 @@ public:
 	// draw yourself
 	void draw();
 
+	// are you dead?
+	bool isDead() { return mShip.isDead(); };
+
+	// send the kill signal
+	void kill() { mShip.kill(); };
+
 	/* The game goes until there are no more lives */
 	bool isGameOver() { return !numLives; };
+
+	const Vector & getVector() const { return mShip.getVector(); }; 
 
 private:
 	void init() { mShip.init(); nextTick = NULL_TICK; };

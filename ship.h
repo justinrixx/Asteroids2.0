@@ -24,6 +24,7 @@ public:
 	bool  isDead() { return dead; };
 	int getRotation() { return rotation; };
 	int getSize()  { return SHIP_SIZE; };
+	const Vector & getVector() const { return mVector; };
 
 	// setters
 	void setX(float x)   { mVector.setX(x);   };
