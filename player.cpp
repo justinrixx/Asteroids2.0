@@ -35,12 +35,11 @@ void Player :: update(const Interface * pUI, AI * pAI, void * pGame)
 		// if we just died
 		if (nextTick == NULL_TICK)
 		{
-			mShip.resurrect();
 			nextTick = (clock() / 1000) + 2;
 		}
 		
 		// if it's time to resurrect
-		else if ((clock() / 1000) >= nextTick)
+		else if ((clock() / 1000) >= nextTick && numLives > 0)
 		{
 			--numLives;
 			init();

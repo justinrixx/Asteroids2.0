@@ -76,9 +76,8 @@ void Game :: update(const Interface * pUI)
 								p->setDy(src->getDy() + random(-MED_RANDOM, MED_RANDOM));
 
 								addRock(p);
-
-								score += LARGE_POINTS;
 							}
+							score += LARGE_POINTS;
 						}
 						// medium rock, add three small ones
 						else if ((*itr)->getSize() == MED_SIZE)
@@ -92,9 +91,8 @@ void Game :: update(const Interface * pUI)
 								p->setDy(src->getDy() + random(-SMALL_RANDOM, SMALL_RANDOM));
 
 								addRock(p);
-
-								score += MED_POINTS;
 							}
+							score += MED_POINTS;
 						}
 						else
 							score += SMALL_POINTS;
@@ -143,9 +141,9 @@ void Game :: update(const Interface * pUI)
 							p->setDy(src->getDy() + random(-MED_RANDOM, MED_RANDOM));
 
 							addRock(p);
-
-							score += LARGE_POINTS;
 						}
+
+						score += LARGE_POINTS;
 					}
 					// medium rock, add three small ones
 					else if ((*itr)->getSize() == MED_SIZE)
@@ -159,9 +157,8 @@ void Game :: update(const Interface * pUI)
 							p->setDy(src->getDy() + random(-SMALL_RANDOM, SMALL_RANDOM));
 
 							addRock(p);
-
-							score += MED_POINTS;
 						}
+						score += MED_POINTS;
 					}
 					else
 						score += SMALL_POINTS;
