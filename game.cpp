@@ -17,6 +17,9 @@ void Game :: draw()
 	// draw the player
 	mPlayer.draw();
 
+	if (mPlayer.isGameOver())
+		drawText(Point(GAME_OVER_OFFSET, 0), "GAME OVER");
+
 	// draw the rocks
 	list<Rock *>::iterator itr;
 	for (itr = rocks.begin(); itr != rocks.end(); ++itr)

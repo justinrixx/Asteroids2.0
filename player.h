@@ -11,6 +11,7 @@
  #include "uiInteract.h"
 
  #define NULL_TICK -1
+ #define TICK_DELAY 20
 
 class AI;
 

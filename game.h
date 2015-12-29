@@ -23,6 +23,8 @@
 #define MED_POINTS 75
 #define LARGE_POINTS 100
 
+#define GAME_OVER_OFFSET -45
+
 class AI;
 
 class Game

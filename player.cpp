@@ -35,15 +35,14 @@ void Player :: update(const Interface * pUI, AI * pAI, void * pGame)
 		// if we just died
 		if (nextTick == NULL_TICK)
 		{
-			nextTick = (clock() / 1000) + 2;
+			--numLives;
+			nextTick = (clock() / 1000) + TICK_DELAY;
 		}
 		
 		// if it's time to resurrect
 		else if ((clock() / 1000) >= nextTick && numLives > 0)
-		{
-			--numLives;
 			init();
-		}
+
 		// otherwise, do nothing
 	}
 }
