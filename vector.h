@@ -2,6 +2,8 @@
  * Vector Class
  * A vector is just a point, plus direction.
  *****************************************************/
+ //#include <iostream>
+
  #include <cmath>
  #include <stdlib.h>
  #include "point.h"
@@ -67,6 +69,8 @@ public:
 
       		minD = min(minD, distance);
    		}
+
+   		//std::cerr << "minD: " << minD << "  sqrt(minD): " << sqrt(minD) << std::endl;
    		return sqrt(minD);
 	}
 

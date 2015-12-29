@@ -15,6 +15,13 @@
  #define MED_SIZE 14
  #define LARGE_SIZE 22
 
+#define LARGE_RANDOM 2.0
+#define MED_RANDOM 2.5
+#define SMALL_RANDOM 3.0
+#define SMALL_POINTS 50
+#define MED_POINTS 75
+#define LARGE_POINTS 100
+
 class Rock
 {
 public:
@@ -25,6 +32,8 @@ public:
 		type = random(0, 2);
 		mVector.setX(POINT_MAX);
 		mVector.setY(random(-POINT_MAX, POINT_MAX));
+		mVector.setDx(random(-LARGE_RANDOM, LARGE_RANDOM));
+		mVector.setDy(random(-LARGE_RANDOM, LARGE_RANDOM));
 	}
 
 	// getters
