@@ -76,6 +76,8 @@ void Game :: update(const Interface * pUI)
 								p->setDy(src->getDy() + random(-MED_RANDOM, MED_RANDOM));
 
 								addRock(p);
+
+								score += LARGE_POINTS;
 							}
 						}
 						// medium rock, add three small ones
@@ -90,8 +92,12 @@ void Game :: update(const Interface * pUI)
 								p->setDy(src->getDy() + random(-SMALL_RANDOM, SMALL_RANDOM));
 
 								addRock(p);
+
+								score += MED_POINTS;
 							}
 						}
+						else
+							score += SMALL_POINTS;
 
 						// some debris for eye candy
 						for (int i = 0; i < NUM_DEBRIS; i++)
@@ -122,7 +128,7 @@ void Game :: update(const Interface * pUI)
 			// make sure the rock isn't dead
 			if (!(*itr)->isDead())
 			{
-				if ((*itr)->getVector().minDistance(mPlayer.getVector()) <= (*itr)->getSize())
+				if ((*itr)->getVector().minDistance(mPlayer.getVector()) <= ((*itr)->getSize() + SHIP_SIZE))
 				{
 					Rock * src = *itr;
 					// large rock, add two medium ones
@@ -137,6 +143,8 @@ void Game :: update(const Interface * pUI)
 							p->setDy(src->getDy() + random(-MED_RANDOM, MED_RANDOM));
 
 							addRock(p);
+
+							score += LARGE_POINTS;
 						}
 					}
 					// medium rock, add three small ones
@@ -151,8 +159,12 @@ void Game :: update(const Interface * pUI)
 							p->setDy(src->getDy() + random(-SMALL_RANDOM, SMALL_RANDOM));
 
 							addRock(p);
+
+							score += MED_POINTS;
 						}
 					}
+					else
+						score += SMALL_POINTS;
 
 					// some debris for eye candy
 					for (int i = 0; i < NUM_DEBRIS; i++)

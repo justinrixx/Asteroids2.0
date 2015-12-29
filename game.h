@@ -19,6 +19,9 @@
 #define DEBRIS_RANDOM 2.0
 #define MED_RANDOM 2.0
 #define SMALL_RANDOM 3.0
+#define SMALL_POINTS 50
+#define MED_POINTS 75
+#define LARGE_POINTS 100
 
 class AI;
 

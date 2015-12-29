@@ -24,6 +24,7 @@ public:
 		dr = random(-8, 8);
 		type = random(0, 2);
 		mVector.setX(POINT_MAX);
+		mVector.setY(random(-POINT_MAX, POINT_MAX));
 	}
 
 	// getters
