@@ -27,12 +27,13 @@ public:
 	}
 
 	// getters
-	float getX()      const { return mVector.getX();  };
-	float getY()      const { return mVector.getY();  };
-	float getDx()     const { return mVector.getDx(); };
-	float getDy()     const { return mVector.getDy(); };
-	bool  isDead()    const { return dead; };
-	int getRotation() const { return rotation; };
+	float getX()               const { return mVector.getX();  };
+	float getY()               const { return mVector.getY();  };
+	float getDx()              const { return mVector.getDx(); };
+	float getDy()              const { return mVector.getDy(); };
+	const Vector & getVector() const { return mVector; }
+	bool  isDead()             const { return dead; };
+	int getRotation()          const { return rotation; };
 
 	// setters
 	void setX(float x)   { mVector.setX(x);   };
@@ -82,7 +83,7 @@ public:
 	}
 
 	// what size are you?
-	virtual int getSize() { return SMALL_SIZE; };
+	virtual float getSize() { return SMALL_SIZE; };
 
 protected:
 	Vector mVector;
@@ -102,7 +103,7 @@ public:
 
 	SRock() { Rock(); };
 
-	virtual int getSize() { return SMALL_SIZE; };
+	virtual float getSize() { return SMALL_SIZE; };
 };
 
 class MRock : public Rock
@@ -111,7 +112,7 @@ public:
 
 	MRock() { Rock(); };
 
-	virtual int getSize() { return MED_SIZE; };
+	virtual float getSize() { return MED_SIZE; };
 };
 
 class LRock : public Rock
@@ -120,7 +121,7 @@ public:
 
 	LRock() { Rock(); };
 
-	virtual int getSize() { return LARGE_SIZE; };
+	virtual float getSize() { return LARGE_SIZE; };
 };
 
  #endif // _ROCK_H

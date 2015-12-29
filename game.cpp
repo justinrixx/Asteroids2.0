@@ -44,13 +44,87 @@ void Game :: draw()
 ************************************************************/
 void Game :: update(const Interface * pUI)
 {
-	// TODO collision detection
+	/**********************
+	* Collision Detection
+	***********************/
+	// bullets and rocks
+	list<Rock *>::iterator itr;
+	list<Bullet *>::iterator itb;
 
+	for (itr = rocks.begin(); itr != rocks.end(); ++itr)
+	{
+		// make sure the rock isn't dead
+		if (!(*itr)->isDead())
+		{
+			for (itb = bullets.begin(); itb != bullets.end(); ++itb)
+			{
+				// make sure the bullet isn't dead
+				if (!(*itb)->isDead())
+				{
+					if ((*itr)->getVector().minDistance((*itb)->getVector()) <= (*itr)->getSize())
+					{
+						Rock * src = *itr;
+						// large rock, add two medium ones
+						if ((*itr)->getSize() == LARGE_SIZE)
+						{
+							for (int i = 0; i < 2; i++)
+							{
+								Rock * p = new MRock();
+								p->setX(src->getX());
+								p->setY(src->getY());
+								p->setDx(src->getDx() + random(-MED_RANDOM, MED_RANDOM));
+								p->setDy(src->getDy() + random(-MED_RANDOM, MED_RANDOM));
+
+								addRock(p);
+							}
+						}
+						// medium rock, add three small ones
+						else if ((*itr)->getSize() == MED_SIZE)
+						{
+							for (int i = 0; i < 3; i++)
+							{
+								Rock * p = new SRock();
+								p->setX(src->getX());
+								p->setY(src->getY());
+								p->setDx(src->getDx() + random(-SMALL_RANDOM, SMALL_RANDOM));
+								p->setDy(src->getDy() + random(-SMALL_RANDOM, SMALL_RANDOM));
+
+								addRock(p);
+							}
+						}
+
+						// some debris for eye candy
+						for (int i = 0; i < NUM_DEBRIS; i++)
+						{
+							Bullet * p = new Bullet();
+							p->setX(src->getX());
+							p->setY(src->getY());
+							p->setDx(src->getDx() + random(-DEBRIS_RANDOM, DEBRIS_RANDOM));
+							p->setDy(src->getDy() + random(-DEBRIS_RANDOM, DEBRIS_RANDOM));
+
+							addDebris(p);
+						}
+
+						// kill them both
+						(*itr)->kill();
+						(*itb)->kill();
+					}
+				}
+			}
+		}
+	}
+
+	// rocks and ship
+
+
+	/**********************
+	* Update Locations
+	***********************/
 	// update the player
 	mPlayer.update(pUI, pAI, this);
 
 	// update the rocks
-	list<Rock *>::iterator itr = rocks.begin();
+	itr = rocks.begin();
  	while (itr != rocks.end())
  	{
     	Rock * temp = *itr;
@@ -72,7 +146,7 @@ void Game :: update(const Interface * pUI)
 	}
 
 	// update the bullets
-	list<Bullet *>::iterator itb = bullets.begin();
+	itb = bullets.begin();
  	while (itb != bullets.end())
  	{
     	Bullet * temp = *itb;

@@ -2,6 +2,7 @@
 * All the ship's interesting stuff happens here
 *************************************************/
 #include <cmath>
+#include <iostream>
 #include "ship.h"
 #include "uiInteract.h"
 #include "uiDraw.h"
@@ -17,7 +18,7 @@ void Ship :: update(const Interface * pUI, void * pGame)
 
 	// fire a bullet
 	if (pUI->isSpace())
-	{	
+	{
 		Game * game = (Game *)pGame;
 
 		Bullet * p = new Bullet();
@@ -30,9 +31,13 @@ void Ship :: update(const Interface * pUI, void * pGame)
 	}
 	// rotate
 	if (pUI->isRight())
+	{
 		rotation -= 7;
+	}
 	if (pUI->isLeft())
+	{
     	rotation += 7;
+	}
 
     // thrust
 	if (pUI->isUp())

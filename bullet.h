@@ -16,19 +16,20 @@ public:
 	Bullet() : mVector(), dead(false), life(BULLET_LIFE) {};
 
 	// getters
-	float getX()   { return mVector.getX();  };
-	float getY()   { return mVector.getY();  };
-	float getDx()  { return mVector.getDx(); };
-	float getDy()  { return mVector.getDy(); };
-	bool  isDead() { return dead; };
+	float getX()               { return mVector.getX();  };
+	float getY()               { return mVector.getY();  };
+	float getDx()              { return mVector.getDx(); };
+	float getDy()              { return mVector.getDy(); };
+	const Vector & getVector() { return mVector; }
+	bool  isDead()             { return dead; };
 
 	// setters
 	void setX(float x)   { mVector.setX(x);   };
 	void setY(float y)   { mVector.setY(y);   };
 	void setDx(float dx) { mVector.setDx(dx); };
 	void setDy(float dy) { mVector.setDy(dy); };
-	void kill()      { dead = true;  };
-	void resurrect() { dead = false; life = BULLET_LIFE; };
+	void kill()          { dead = true;  };
+	void resurrect()     { dead = false; life = BULLET_LIFE; };
 
 	// update yourself
 	void update()

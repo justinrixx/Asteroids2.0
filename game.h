@@ -15,6 +15,11 @@
 #include "player.h"
 #include "bullet.h"
 
+#define NUM_DEBRIS 4
+#define DEBRIS_RANDOM 2.0
+#define MED_RANDOM 2.0
+#define SMALL_RANDOM 3.0
+
 class AI;
 
 class Game
