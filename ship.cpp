@@ -16,9 +16,27 @@ void Ship :: update(const Interface * pUI, void * pGame)
 {
 	isThrusting = false;
 
+	// rotate
+	if (pUI->isLeft())
+	{
+    	rotation += 7;
+	}
+	if (pUI->isRight())
+	{
+		rotation -= 7;
+	}
+
+    // thrust
+	if (pUI->isUp())
+	{
+    	mVector.setDx(mVector.getDx() - (.2 * sin(deg2rad(rotation))));
+    	mVector.setDy(mVector.getDy() + (.2 * cos(deg2rad(rotation))));
+    	isThrusting = true;
+	}
 	// fire a bullet
 	if (pUI->isSpace())
 	{
+		//std::cerr << "SPACE" << std::endl;
 		Game * game = (Game *)pGame;
 
 		Bullet * p = new Bullet();
@@ -28,23 +46,6 @@ void Ship :: update(const Interface * pUI, void * pGame)
 		p->setDy(mVector.getDy() + BULLET_SPEED * cos(deg2rad(rotation)));
 
 		game->addBullet(p);
-	}
-	// rotate
-	if (pUI->isRight())
-	{
-		rotation -= 7;
-	}
-	if (pUI->isLeft())
-	{
-    	rotation += 7;
-	}
-
-    // thrust
-	if (pUI->isUp())
-	{
-    	mVector.setDx(mVector.getDx() - (.2 * sin(deg2rad(rotation))));
-    	mVector.setDy(mVector.getDy() + (.2 * cos(deg2rad(rotation))));
-    	isThrusting = true;
 	}
 
 	// now update the location
