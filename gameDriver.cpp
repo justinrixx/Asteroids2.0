@@ -1,4 +1,6 @@
 #include <iostream>
+#include <time.h>
+#include <cstdlib>
 #include "game.h"
 #include "uiDraw.h"
 #include "uiInteract.h"
@@ -28,6 +30,7 @@ void callBack(const Interface *pUI, void *p)
  **********************************************/
 int main(int argc, char ** argv)
 {
+  srand(clock());
   // instantiate the game object
   Game * pGame = new Game();
 
