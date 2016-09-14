@@ -36,7 +36,6 @@ void Ship :: update(const Interface * pUI, void * pGame)
 	// fire a bullet
 	if (pUI->isSpace())
 	{
-		//std::cerr << "SPACE" << std::endl;
 		Game * game = (Game *)pGame;
 
 		Bullet * p = new Bullet();

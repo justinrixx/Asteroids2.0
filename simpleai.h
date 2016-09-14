@@ -1,8 +1,8 @@
 /*****************************************************
  * Simple AI Class
- * Just run away from the closest asteroid
+ * Just shoot
  *****************************************************/
- #include "ai.h"
+ #include "game.h"
 
  #ifndef _SIMPLEAI_H
  #define _SIMPLEAI_H
@@ -10,7 +10,7 @@
 class SimpleAI : public AI
 {
 public:
-	SimpleAI(Game * pGame) { AI(pGame); };
+	SimpleAI(Game *game) : AI(game) {};
 
 protected:
 	/* Really simple. Just run away from the closest
@@ -18,9 +18,9 @@ protected:
 	 */
 	virtual void move()
 	{
-		isSpacePressed = true; // always fire
-
-		// TODO the moving part
+		// spin in a circle and shoot
+		isRightPressed = true;
+		isSpacePressed = !isSpacePressed;
 	}
 
 };

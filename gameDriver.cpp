@@ -2,6 +2,7 @@
 #include <time.h>
 #include <cstdlib>
 #include "game.h"
+#include "simpleai.h"
 #include "uiDraw.h"
 #include "uiInteract.h"
 
@@ -35,10 +36,10 @@ int main(int argc, char ** argv)
   Game * pGame = new Game();
 
   // instantiate an AI
-  // SimpleAI ai(pGame);
+  SimpleAI ai(pGame);
 
   // the game needs a reference to the AI
-  pGame->setAI(NULL);
+  pGame->setAI(&ai);
   pGame->addRock(new LRock());
   pGame->addRock(new LRock());
 

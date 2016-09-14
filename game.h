@@ -73,8 +73,8 @@ private:
 class AI
 {
 public:
-	AI(Game * pGame) : isUpPressed(false), isLeftPressed(false), isRightPressed(false),
-		isSpacePressed(false), pGame(pGame) {};
+	AI(Game * game) : isUpPressed(false), isLeftPressed(false), isRightPressed(false),
+		isSpacePressed(false), pGame(game) {};
 
 	/* Update the AI. Don't touch this. Your hook-in point is the move method */
 	void update(Ship & playerShip) { getClosestRocks(); move(); moveShip(playerShip); };
@@ -128,7 +128,20 @@ protected:
     		playerShip.setThrusting(true);
 		}
 		else
-		playerShip.setThrusting(false);
+		{
+			playerShip.setThrusting(false);
+		}
+
+		if (isSpacePressed)
+		{
+			Bullet * p = new Bullet();
+			p->setX(playerShip.getX() - playerShip.getSize() * sin(deg2rad(playerShip.getRotation())));
+			p->setY(playerShip.getY() + playerShip.getSize() * cos(deg2rad(playerShip.getRotation())));
+			p->setDx(playerShip.getDx() - BULLET_SPEED * sin(deg2rad(playerShip.getRotation())));
+			p->setDy(playerShip.getDy() + BULLET_SPEED * cos(deg2rad(playerShip.getRotation())));
+
+			pGame->addBullet(p);
+		}
 
 		// now update the location
 		playerShip.updateVector();
