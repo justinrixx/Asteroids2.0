@@ -4,6 +4,8 @@
 #include <list>
 #include "game.h"
 
+#define LARGE_SPAWN 5
+
 using namespace std;
 
 /*************************************************************
@@ -93,7 +95,16 @@ void Game :: update(const Interface * pUI)
 						score += MED_POINTS;
 					}
 					else
+					{
+						numSmallKilled += 1;
+						if (numSmallKilled % LARGE_SPAWN == 0)
+						{
+							// spawn a large one
+							addRock(new LRock());
+						}
+
 						score += SMALL_POINTS;
+					}
 
 					// some debris for eye candy
 					for (int i = 0; i < NUM_DEBRIS; i++)

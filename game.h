@@ -27,7 +27,7 @@ class Game
 {
 public:
 
-	Game() : mPlayer(), score(0), pAI(NULL) {};
+	Game() : mPlayer(), score(0), numSmallKilled(0), pAI(NULL) {};
 
 	// add a bullet
 	void addBullet(Bullet * pBullet)
@@ -65,6 +65,7 @@ private:
 	std::list<Bullet *> bullets;
 	std::list<Debris *> debris;
 	int score;
+	int numSmallKilled;
 };
 
 
