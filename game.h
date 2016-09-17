@@ -14,6 +14,7 @@
 #include "rock.h"
 #include "player.h"
 #include "bullet.h"
+#include "debris.h"
 
 #define NUM_DEBRIS 4
 #define DEBRIS_RANDOM 2.0
@@ -41,7 +42,7 @@ public:
 	void addRock(Rock * pRock) { rocks.push_back(pRock); };
 
 	// add debris
-	void addDebris(Bullet * pDebris) { debris.push_back(pDebris); };
+	void addDebris(Debris * pDebris) { debris.push_back(pDebris); };
 
 	// update everything
 	void update(const Interface * pUI);
@@ -62,7 +63,7 @@ private:
 	Player mPlayer;
 	std::list<Rock *> rocks;
 	std::list<Bullet *> bullets;
-	std::list<Bullet *> debris;
+	std::list<Debris *> debris;
 	int score;
 };
 

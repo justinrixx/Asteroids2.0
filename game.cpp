@@ -3,8 +3,6 @@
 **************************************************************/
 #include <list>
 #include "game.h"
-#include "uiDraw.h"
-#include "point.h"
 
 using namespace std;
 
@@ -31,7 +29,7 @@ void Game :: draw()
 		(*itb)->draw();
 
 	// draw the debris
-	list<Bullet *>::iterator itd;
+	list<Debris *>::iterator itd;
 	for (itd = debris.begin(); itd != debris.end(); ++itd)
 		(*itd)->draw();
 
@@ -100,7 +98,7 @@ void Game :: update(const Interface * pUI)
 					// some debris for eye candy
 					for (int i = 0; i < NUM_DEBRIS; i++)
 					{
-						Bullet * p = new Bullet();
+						Debris * p = new Debris();
 						p->setX(src->getX());
 						p->setY(src->getY());
 						p->setDx(src->getDx() + random(-DEBRIS_RANDOM, DEBRIS_RANDOM));
@@ -165,7 +163,7 @@ void Game :: update(const Interface * pUI)
 					// some debris for eye candy
 					for (int i = 0; i < NUM_DEBRIS; i++)
 					{
-						Bullet * p = new Bullet();
+						Debris * p = new Debris();
 						p->setX(src->getX());
 						p->setY(src->getY());
 						p->setDx(src->getDx() + random(-DEBRIS_RANDOM, DEBRIS_RANDOM));
@@ -233,10 +231,10 @@ void Game :: update(const Interface * pUI)
 	}
 
 	// update the debris
-	list<Bullet *>::iterator itd = debris.begin();
+	list<Debris *>::iterator itd = debris.begin();
  	while (itd != debris.end())
  	{
-    	Bullet * temp = *itd;
+    	Debris * temp = *itd;
 
     	// if it's dead, get rid of it
     	if (temp->isDead())

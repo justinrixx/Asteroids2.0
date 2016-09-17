@@ -10,7 +10,7 @@
 class NNAI : public AI
 {
 public:
-    NNAI(Game *game /* neural net weights */) : AI(game) { /* init NN */ };
+    NNAI(Game * game /* neural net weights */) : AI(game) { /* init NN */ };
 
 protected:
     virtual void move()

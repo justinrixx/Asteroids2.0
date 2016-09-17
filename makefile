@@ -26,7 +26,7 @@ shipDriver: ship.o uiDraw.o uiInteract.o shipDriver.cpp
 #########################################################
 # Individual components
 #########################################################
-game.o: game.h game.cpp uiDraw.o uiInteract.o player.o ship.o rock.h bullet.h point.h vector.h
+game.o: game.h game.cpp uiDraw.o uiInteract.o player.o ship.o rock.h bullet.h point.h vector.h debris.h
 	g++ -c game.cpp
 player.o: player.h player.cpp uiDraw.o uiInteract.o ship.h game.h
 	g++ -c player.cpp
