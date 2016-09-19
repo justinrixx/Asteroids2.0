@@ -5,7 +5,7 @@
 #########################################################
 # The real deal
 #########################################################
-gameDriver: game.o gameDriver.cpp point.h bullet.h uiInteract.o uiDraw.o player.o ship.o rock.h bullet.h vector.h simpleai.h
+gameDriver: game.o gameDriver.cpp point.h bullet.h uiInteract.o uiDraw.o player.o ship.o rock.h bullet.h vector.h simpleai.h randomai.h
 	g++ -o gameDriver gameDriver.cpp game.o uiDraw.o uiInteract.o player.o ship.o -lglut -lGL -lGLU
 
 
