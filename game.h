@@ -18,7 +18,7 @@
 
 #define NUM_DEBRIS 4
 #define DEBRIS_RANDOM 2.0
-#define INFINITY 999999.9
+#define INFIN 999999.9
 #define NUM_CLOSEST_ROCKS 5
 
 #define GAME_OVER_OFFSET -45
@@ -119,7 +119,7 @@ protected:
 		// set the distances to infinity
 		for (int i = 0; i < NUM_CLOSEST_ROCKS; i++)
 		{
-			distances[i] = INFINITY;
+			distances[i] = INFIN;
 		}
 
 		// get all the distances
