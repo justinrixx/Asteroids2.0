@@ -18,6 +18,8 @@
 
 #define NUM_DEBRIS 4
 #define DEBRIS_RANDOM 2.0
+#define INFINITY 999999.9
+#define NUM_CLOSEST_ROCKS 5
 
 #define GAME_OVER_OFFSET -45
 
@@ -79,7 +81,7 @@ public:
 		isSpacePressed(false), pGame(game) {};
 
 	/* Update the AI. Don't touch this. Your hook-in point is the move method */
-	void update(Ship & playerShip) { getClosestRocks(); move(); moveShip(playerShip); };
+	void update(Ship & playerShip) { getClosestRocks(playerShip); move(); moveShip(playerShip); };
 
 protected:
 	/****************************************************
@@ -108,13 +110,61 @@ protected:
 	virtual void move() = 0;
 
 	/* Don't touch these */
-	void getClosestRocks()
+	void getClosestRocks(Ship & playerShip)
 	{
+		double distances[NUM_CLOSEST_ROCKS];
+
 		std::list<Rock *> rocks = pGame->getRocks();
 
-		
-		for (int i = 0; i < 5; i++)
-			closestRocks[i] = NULL;
+		// set the distances to infinity
+		for (int i = 0; i < NUM_CLOSEST_ROCKS; i++)
+		{
+			distances[i] = INFINITY;
+		}
+
+		// get all the distances
+		std::list<Rock *>::iterator itr;
+		for (itr = rocks.begin(); itr != rocks.end(); ++itr)
+		{
+			double distance = getDistance((*itr)->getX(), (*itr)->getY(), playerShip.getX(), playerShip.getY());
+
+			for (int i = NUM_CLOSEST_ROCKS - 1; i > 0; i--)
+			{
+				if (distance < distances[i])
+				{
+					// copy over unless at the end
+					if (i < NUM_CLOSEST_ROCKS - 1)
+					{
+						distances[i + 1] = distances[i];
+						closestRocks[i + 1] = closestRocks[i];
+					}
+
+					if (distance >= distances[i - 1])
+					{
+						distances[i] = distance;
+						closestRocks[i] = *itr;
+					}
+					else
+					{
+						if (i == 1)
+						{
+							distances[1] = distances[0];
+							closestRocks[1] = closestRocks[0];
+
+							distances[0] = distance;
+							closestRocks[0] = *itr;
+						}
+					}
+				}
+				else
+					break;
+			}
+		}
+	}
+	/* Not real distance, but we're just using it to see what's closest */
+	double getDistance(float x1, float y1, float x2, float y2)
+	{
+		return pow((x1 - x2), 2) + pow((y1 - y2), 2);
 	}
 	void moveShip(Ship & playerShip)
 	{
@@ -152,7 +202,7 @@ protected:
 	}
 
 	// The AI has an eye on where the enemy rocks are
-	Rock * closestRocks[5];
+	Rock * closestRocks[NUM_CLOSEST_ROCKS];
 
 	// the AI needs a pointer to the game
 	Game * pGame;
