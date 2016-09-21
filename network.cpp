@@ -2,6 +2,8 @@
 // Created by justin on 5/3/16.
 //
 
+#include <cassert>
+#include <cmath>
 #include "network.h"
 
 /**
@@ -14,7 +16,9 @@ void Network::init(int numInputs, int numOutputs, const std::vector<int> & topol
     this->numOutputs = numOutputs;
 
     // input layer
-    layers.push_back(Layer(numInputs, topology[0]));
+    std::vector<std::vector<float> > inputLayer;
+    makeLayer(inputLayer, numInputs, topology[0]);
+    layers.push_back(inputLayer);
 
     this->topology.push_back(topology[0]);
 
@@ -22,14 +26,18 @@ void Network::init(int numInputs, int numOutputs, const std::vector<int> & topol
     for (int i = 1; i < topology.size(); i++)
     {
         // make the layer
-        layers.push_back(Layer(layers[i - 1].getNumOutputs(), topology[i]));
+        std::vector<std::vector<float> > layer;
+        makeLayer(layer, layers[i - 1].size(), topology[i]);
+        layers.push_back(layer);
 
         // save the topology
         this->topology.push_back(topology[i]);
     }
 
     // output layer
-    layers.push_back(Layer(layers[layers.size() - 1].getNumOutputs(), numOutputs));
+    std::vector<std::vector<float> > outputLayer;
+    makeLayer(outputLayer, layers[layers.size() - 1].size(), numOutputs);
+    layers.push_back(outputLayer);
 }
 
 /**
@@ -42,7 +50,7 @@ void Network::getOutputs(std::vector<double> &outputs, const std::vector<double>
     std::vector<double> out;
 
     // first layer
-    layers[0].getOutputs(out, inputs);
+    getOutputs(layers[0], out, inputs);
 
     // hidden and output layers
     for (int i = 1; i < layers.size(); i++)
@@ -51,13 +59,13 @@ void Network::getOutputs(std::vector<double> &outputs, const std::vector<double>
         if (i % 2 == 0)
         {
             out.clear();
-            layers[i].getOutputs(out, outputs);
+            getOutputs(layers[i], out, outputs);
         }
         // odds
         else
         {
             outputs.clear();
-            layers[i].getOutputs(outputs, out);
+            getOutputs(layers[i], outputs, out);
         }
     }
 
@@ -81,18 +89,22 @@ void Network::toFile(std::string filename)
     std::ofstream fout(filename.c_str());
 
     // write the topology
-    fout << numInputs << " ";
+    fout << numInputs << " " << numOutputs << " ";
     for (int i = 0; i < topology.size(); i++)
     {
         fout << topology[i] << " ";
     }
-    fout << numOutputs << " 0";
 
     // write all the layers
     for (int i = 0; i < layers.size(); i++)
     {
-        layers[i].toFile(fout);
-        fout << std::endl;
+        for (int j = 0; j < layers[i].size(); j++)
+        {
+            for (int k = 0; k < layers[i][j].size(); k++)
+            {
+                fout << layers[i][j][k] << " ";
+            }
+        }
     }
 
     fout.close();
@@ -101,6 +113,56 @@ void Network::toFile(std::string filename)
 /**
  * Read the entire network from a file
  */
-void Network::fromFile(std::string filename) {
-    
+void Network::fromFile(std::string filename)
+{
+
+}
+
+/**
+ * A helper function to build a layer in the neural net
+ */
+void Network::makeLayer(std::vector<std::vector<float> > &layer, int numInputs, int numNodes)
+{
+    for (int i = 0; i < numNodes; i++)
+    {
+        std::vector<float> node;
+        makeNode(node, numInputs);
+
+        layer.push_back(node);
+    }
+}
+
+/**
+ * A helper function to build a node in the neural net
+ */
+void Network::makeNode(std::vector<float> &node, int numInputs)
+{
+    // numInputs + 1 for the bias
+    for (int i = 0; i < numInputs + 1; i++)
+    {
+        node.push_back(random(-1, 1));
+    }
+}
+
+/**
+ * A helper function to get the output of a layer
+ */
+void Network::getOutputs(const std::vector<std::vector<float> > & layer, std::vector<double> & outputs,
+                         const std::vector<double> & inputs)
+{
+    for (int i = 0; i < layer.size(); i++)
+    {
+        assert(layer[i].size() == inputs.size());
+
+        float total = 0;
+        for (int j = 0; j < layer[i].size(); j++)
+        {
+            total += inputs[j] * layer[i][j];
+        }
+
+        // bias node
+        total += layer[i][layer[i].size() - 1] * -1;
+
+        outputs.push_back(tanh(total));
+    }
 }

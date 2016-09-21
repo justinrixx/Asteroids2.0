@@ -8,7 +8,7 @@
 #include <vector>
 #include <fstream>
 #include <string>
-#include "layer.h"
+#include "uiDraw.h"
 
 class Network {
 
@@ -32,7 +32,11 @@ public:
     void fromFile(std::string filename);
 
 private:
-    std::vector<Layer> layers;
+    void makeLayer(std::vector<std::vector<float> > &layer, int numInputs, int numNodes);
+    void makeNode(std::vector<float> &node, int numInputs);
+    void getOutputs(const std::vector<std::vector<float> > & layer, std::vector<double> & outputs, const std::vector<double> & inputs);
+
+    std::vector<std::vector<std::vector<float> > > layers;
     int numInputs;
     int numOutputs;
     std::vector<int> topology;
