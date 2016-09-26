@@ -19,7 +19,7 @@ protected:
     /* Really simple. Just run away from the closest
      * asteroid, and fire constantly
      */
-    virtual void move()
+    virtual void move(const Ship & notUsed)
     {
         int r = random(0, THRUST_FREQUENCY);
         isUpPressed = (r == 0);

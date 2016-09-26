@@ -5,8 +5,8 @@
 #########################################################
 # The real deal
 #########################################################
-gameDriver: game.o gameDriver.cpp point.h bullet.h uiInteract.o uiDraw.o player.o ship.o rock.h bullet.h vector.h simpleai.h randomai.h
-	g++ -o gameDriver gameDriver.cpp game.o uiDraw.o uiInteract.o player.o ship.o -lglut -lGL -lGLU
+gameDriver: game.o gameDriver.cpp point.h bullet.h uiInteract.o uiDraw.o player.o ship.o network.o rock.h bullet.h vector.h simpleai.h randomai.h network.h neuralnetai.h
+	g++ -o gameDriver gameDriver.cpp game.o uiDraw.o uiInteract.o player.o ship.o network.o -lglut -lGL -lGLU
 
 
 #########################################################
@@ -32,6 +32,8 @@ player.o: player.h player.cpp uiDraw.o uiInteract.o ship.h game.h
 	g++ -c player.cpp
 ship.o: ship.h ship.cpp uiDraw.o uiInteract.o bullet.h
 	g++ -c ship.cpp
+network.o: network.h network.cpp
+	g++ -c network.cpp
 uiDraw.o: uiDraw.cpp uiDraw.h point.h
 	g++ -c uiDraw.cpp
 uiInteract.o: uiInteract.cpp uiInteract.h point.h

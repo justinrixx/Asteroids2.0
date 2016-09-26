@@ -4,6 +4,7 @@
 
 #include <cassert>
 #include <cmath>
+#include <iostream>
 #include "network.h"
 
 /**
@@ -17,7 +18,7 @@ void Network::init(int numInputs, int numOutputs, const std::vector<int> & topol
 
     // input layer
     std::vector<std::vector<float> > inputLayer;
-    makeLayer(inputLayer, numInputs, topology[0]);
+    makeLayer(inputLayer, numInputs, topology[0]); // - 1 because we don't want a bias on the inputs
     layers.push_back(inputLayer);
 
     this->topology.push_back(topology[0]);
@@ -70,7 +71,7 @@ void Network::getOutputs(std::vector<double> &outputs, const std::vector<double>
     }
 
     // copy the values if ended on even
-    if (layers.size() % 2 == 0)
+    if (layers.size() % 2 == 1)
     {
         outputs.clear();
         for (int i = 0; i < out.size(); i++)
@@ -152,7 +153,7 @@ void Network::getOutputs(const std::vector<std::vector<float> > & layer, std::ve
 {
     for (int i = 0; i < layer.size(); i++)
     {
-        assert(layer[i].size() == inputs.size());
+        assert(layer[i].size() == inputs.size() + 1);
 
         float total = 0;
         for (int j = 0; j < layer[i].size(); j++)

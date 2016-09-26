@@ -81,7 +81,7 @@ public:
 		isSpacePressed(false), pGame(game) {};
 
 	/* Update the AI. Don't touch this. Your hook-in point is the move method */
-	void update(Ship & playerShip) { getClosestRocks(playerShip); move(); moveShip(playerShip); };
+	void update(Ship & playerShip) { getClosestRocks(playerShip); move(playerShip); moveShip(playerShip); };
 
 protected:
 	/****************************************************
@@ -107,7 +107,7 @@ protected:
 	 * screen. You only need to implement the move()
 	 * method in your AI class.
 	 ***************************************************/
-	virtual void move() = 0;
+	virtual void move(const Ship & playerShip) = 0;
 
 	/* Don't touch these */
 	void getClosestRocks(Ship & playerShip)
@@ -126,6 +126,11 @@ protected:
 		std::list<Rock *>::iterator itr;
 		for (itr = rocks.begin(); itr != rocks.end(); ++itr)
 		{
+			for (int i = 0; i < NUM_CLOSEST_ROCKS; i++)
+			{
+				closestRocks[i] = NULL;
+			}
+
 			double distance = getDistance((*itr)->getX(), (*itr)->getY(), playerShip.getX(), playerShip.getY());
 
 			for (int i = NUM_CLOSEST_ROCKS - 1; i > 0; i--)

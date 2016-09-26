@@ -16,7 +16,7 @@ protected:
 	/* Really simple. Just run away from the closest
 	 * asteroid, and fire constantly
 	 */
-	virtual void move()
+	virtual void move(const Ship & notUsed)
 	{
 		// spin in a circle and shoot
 		isRightPressed = true;

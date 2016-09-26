@@ -1,11 +1,13 @@
 #include <iostream>
 #include <time.h>
 #include <cstdlib>
+#include <vector>
 #include "game.h"
 #include "simpleai.h"
 #include "randomai.h"
 #include "uiDraw.h"
 #include "uiInteract.h"
+#include "neuralnetai.h"
 
 using namespace std;
 
@@ -36,9 +38,15 @@ int main(int argc, char ** argv)
   // instantiate the game object
   Game * pGame = new Game();
 
+  vector<int> topology;
+  topology.push_back(10);
+  topology.push_back(10);
+  topology.push_back(10);
+
   // instantiate an AI
   //SimpleAI ai(pGame);
-  RandomAI ai(pGame);
+  //RandomAI ai(pGame);
+  NNAI ai(pGame, topology);
 
   // the game needs a reference to the AI
   pGame->setAI(&ai);

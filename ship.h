@@ -17,13 +17,13 @@ public:
 	Ship() { init(); };
 
 	// getters
-	float getX()   { return mVector.getX();  };
-	float getY()   { return mVector.getY();  };
-	float getDx()  { return mVector.getDx(); };
-	float getDy()  { return mVector.getDy(); };
-	bool  isDead() { return dead; };
-	int getRotation() { return rotation; };
-	int getSize()  { return SHIP_SIZE; };
+	float getX()      const { return mVector.getX();  };
+	float getY()      const { return mVector.getY();  };
+	float getDx()     const { return mVector.getDx(); };
+	float getDy()     const { return mVector.getDy(); };
+	bool  isDead()    const { return dead; };
+	int getRotation() const { return rotation; };
+	int getSize()     const { return SHIP_SIZE; };
 	const Vector & getVector() const { return mVector; };
 
 	// setters
