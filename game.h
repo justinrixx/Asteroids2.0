@@ -59,6 +59,7 @@ public:
 	std::list<Rock *> & getRocks() { return rocks; };
 
 	int getScore() { return score; };
+	int getNumBullets() { return bullets.size(); };
 
 private:
 	AI * pAI;

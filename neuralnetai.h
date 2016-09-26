@@ -6,7 +6,7 @@
 #include "game.h"
 #include "network.h"
 
-#define NETWORK_INPUTS 5 + (5 * NUM_CLOSEST_ROCKS)
+#define NETWORK_INPUTS 6 + (5 * NUM_CLOSEST_ROCKS)
 #define NETWORK_OUTPUTS 4
 
 #ifndef _NNAI_H
@@ -38,6 +38,8 @@ protected:
         inputs.push_back(playerShip.getDx());
         inputs.push_back(playerShip.getDy());
         inputs.push_back(playerShip.getRotation());
+
+        inputs.push_back(pGame->getNumBullets());
 
         // set the rock values
         for (int i = 0; i < NUM_CLOSEST_ROCKS; i++)
