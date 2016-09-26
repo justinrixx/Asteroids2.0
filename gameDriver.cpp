@@ -1,12 +1,6 @@
 #include <iostream>
-#include <time.h>
-#include <cstdlib>
 #include <vector>
 #include "game.h"
-#include "simpleai.h"
-#include "randomai.h"
-#include "uiDraw.h"
-#include "uiInteract.h"
 #include "neuralnetai.h"
 
 using namespace std;
