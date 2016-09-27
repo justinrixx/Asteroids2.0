@@ -1,6 +1,6 @@
-//
-// Created by justin on 5/3/16.
-//
+/**
+* Created by justin on 5/3/16.
+*/
 
 #include <cassert>
 #include <cmath>
@@ -16,12 +16,15 @@ void Network::init(int numInputs, int numOutputs, const std::vector<int> & topol
     this->numInputs = numInputs;
     this->numOutputs = numOutputs;
 
+    for (int i = 0; i < topology.size(); i++)
+    {
+        this->topology.push_back(topology[i]);
+    }
+
     // input layer
     std::vector<std::vector<float> > inputLayer;
-    makeLayer(inputLayer, numInputs, topology[0]); // - 1 because we don't want a bias on the inputs
+    makeLayer(inputLayer, numInputs, topology[0]);
     layers.push_back(inputLayer);
-
-    this->topology.push_back(topology[0]);
 
     // hidden layers
     for (int i = 1; i < topology.size(); i++)
@@ -30,9 +33,6 @@ void Network::init(int numInputs, int numOutputs, const std::vector<int> & topol
         std::vector<std::vector<float> > layer;
         makeLayer(layer, layers[i - 1].size(), topology[i]);
         layers.push_back(layer);
-
-        // save the topology
-        this->topology.push_back(topology[i]);
     }
 
     // output layer
@@ -90,7 +90,7 @@ void Network::toFile(std::string filename)
     std::ofstream fout(filename.c_str());
 
     // write the topology
-    fout << numInputs << " " << numOutputs << " ";
+    fout << numInputs << " " << numOutputs << " " << topology.size() << " ";
     for (int i = 0; i < topology.size(); i++)
     {
         fout << topology[i] << " ";
@@ -116,7 +116,88 @@ void Network::toFile(std::string filename)
  */
 void Network::fromFile(std::string filename)
 {
+    layers.clear();
+    topology.clear();
+    numInputs = 0;
+    numOutputs = 0;
 
+    int topologySize = 0;
+    std::ifstream fin(filename.c_str());
+
+    fin >> numInputs >> numOutputs >> topologySize;
+
+    assert(numInputs != 0 || numOutputs != 0 || topologySize != 0);
+
+    // read in the topology
+    int temp = 0;
+    for (int i = 0; i < topologySize; i++)
+    {
+        fin >> temp;
+        topology.push_back(temp);
+    }
+
+    assert(topologySize == topology.size());
+
+    // input layer
+    std::vector<std::vector<float> > inputLayer;
+
+    for (int i = 0; i < topology[0]; i++)
+    {
+        float weight = 0;
+        std::vector<float> node;
+
+        // +1 for the bias
+        for (int j = 0; j < numInputs + 1; j++)
+        {
+            fin >> weight;
+            node.push_back(weight);
+        }
+
+        inputLayer.push_back(node);
+    }
+
+    layers.push_back(inputLayer);
+
+    for (int i = 1; i < topologySize; i++)
+    {
+        std::vector<std::vector<float> > layer;
+
+        for (int j = 0; j < topology[i]; j++)
+        {
+            float weight = 0;
+            std::vector<float> node;
+
+            for (int k = 0; k < layers[i - 1].size() + 1; k++)
+            {
+                fin >> weight;
+                node.push_back(weight);
+            }
+
+            layer.push_back(node);
+        }
+
+        layers.push_back(layer);
+    }
+
+    // output layer
+    std::vector<std::vector<float> > outputLayer;
+
+    for (int i = 0; i < numOutputs; i++)
+    {
+        float weight = 0;
+        std::vector<float> node;
+
+        // +1 for the bias
+        for (int j = 0; j < topology[topology.size() - 1] + 1; j++)
+        {
+            fin >> weight;
+            node.push_back(weight);
+        }
+
+        outputLayer.push_back(node);
+    }
+
+    layers.push_back(outputLayer);
 }
 
 /**
@@ -141,7 +222,7 @@ void Network::makeNode(std::vector<float> &node, int numInputs)
     // numInputs + 1 for the bias
     for (int i = 0; i < numInputs + 1; i++)
     {
-        node.push_back(random(-1, 1));
+        node.push_back(random(-1.0, 1.0));
     }
 }
 
@@ -153,7 +234,7 @@ void Network::getOutputs(const std::vector<std::vector<float> > & layer, std::ve
 {
     for (int i = 0; i < layer.size(); i++)
     {
-        assert(layer[i].size() == inputs.size() + 1);
+        //assert(layer[i].size() == inputs.size() + 1);
 
         float total = 0;
         for (int j = 0; j < layer[i].size(); j++)
@@ -166,4 +247,45 @@ void Network::getOutputs(const std::vector<std::vector<float> > & layer, std::ve
 
         outputs.push_back(tanh(total));
     }
+}
+
+/**
+ * Copy constructor
+ */
+Network::Network(const Network & rhs)
+{
+
+    this->numInputs = rhs.numInputs;
+    this->numOutputs = rhs.numOutputs;
+    this->topology = rhs.topology;
+
+    for (int i = 0; i < rhs.layers.size(); i++)
+    {
+        std::vector<std::vector<float> > layer;
+        for (int j = 0; j < rhs.layers[i].size(); j++)
+        {
+            std::vector<float> node;
+            for (int k = 0; k < rhs.layers[i][j].size(); k++)
+            {
+                node.push_back(rhs.layers[i][j][k]);
+            }
+            layer.push_back(node);
+        }
+        this->layers.push_back(layer);
+    }
+}
+
+void Network::outputNetwork()
+{
+    for (int i = 0; i < layers.size(); i++)
+    {
+        for (int j = 0; j < layers[i].size(); j++)
+        {
+            for (int k = 0; k < layers[i][j].size(); k++)
+            {
+                std::cerr << layers[i][j][k] << " ";
+            }
+        }
+    }
+    std::cerr << std::endl << std::endl;
 }

@@ -12,6 +12,8 @@ gameDriver: game.o gameDriver.cpp point.h bullet.h uiInteract.o uiDraw.o player.
 #########################################################
 # Component drivers
 #########################################################
+networkDriver: network.h network.o uiDraw.o networkTest.cpp
+	g++ -o networkDriver networkTest.cpp network.o uiDraw.o -lglut -lGL -lGLU
 bulletDriver: point.h bullet.h uiInteract.o uiDraw.o bulletDriver.cpp
 	g++ -o bulletDriver bulletDriver.cpp uiDraw.o uiInteract.o -lglut -lGL -lGLU
 drawTest: point.h uiDraw.o uiInteract.o drawTest.cpp

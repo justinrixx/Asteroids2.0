@@ -19,6 +19,8 @@ public:
     NNAI(Game * game, std::vector<int> & topology)
             : AI(game), mNetwork(NETWORK_INPUTS, NETWORK_OUTPUTS, topology) { };
 
+    NNAI(Game * game, Network net) : AI(game), mNetwork(net) { };
+
 protected:
     virtual void move(const Ship & playerShip)
     {

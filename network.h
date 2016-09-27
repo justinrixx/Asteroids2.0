@@ -13,6 +13,9 @@
 class Network {
 
 public:
+    // copy constructor
+    Network(const Network & rhs);
+
     // randomly weighted network
     Network(int numInputs, int numOutputs, const std::vector<int> & topology)
         { init(numInputs, numOutputs, topology); }
@@ -30,6 +33,9 @@ public:
 
     // read from a file
     void fromFile(std::string filename);
+
+    // for debugging
+    void outputNetwork();
 
 private:
     void makeLayer(std::vector<std::vector<float> > &layer, int numInputs, int numNodes);
