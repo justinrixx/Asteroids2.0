@@ -29,10 +29,10 @@ public:
     void getOutputs(std::vector<double> & outputs, const std::vector<double> & inputs);
 
     // write the network to a file
-    void toFile(std::string filename);
+    void toFile(const std::string & filename);
 
     // read from a file
-    void fromFile(std::string filename);
+    void fromFile(const std::string & filename);
 
     // for debugging
     void outputNetwork();

@@ -84,7 +84,7 @@ void Network::getOutputs(std::vector<double> &outputs, const std::vector<double>
 /**
  * Write the entire network to a file
  */
-void Network::toFile(std::string filename)
+void Network::toFile(const std::string & filename)
 {
     // open a file stream
     std::ofstream fout(filename.c_str());
@@ -114,7 +114,7 @@ void Network::toFile(std::string filename)
 /**
  * Read the entire network from a file
  */
-void Network::fromFile(std::string filename)
+void Network::fromFile(const std::string & filename)
 {
     layers.clear();
     topology.clear();
