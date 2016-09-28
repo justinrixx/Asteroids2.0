@@ -4,17 +4,21 @@
 
 #include <iostream>
 #include <vector>
+#include <cstdlib>
 #include "network.h"
 
 using namespace std;
 
 int main()
 {
+    srand(clock());
+
     vector<double> outputs;
 
     vector<int> topology;
     topology.push_back(2);
     topology.push_back(2);
+    topology.push_back(3);
     topology.push_back(3);
 
     Network net(3, 3, topology);
@@ -32,7 +36,17 @@ int main()
     }
     cout << endl << endl;
 
-    net.outputNetwork();
+    outputs.clear();
+
+    net.getOutputs(outputs, inputs);
+
+    for (int i = 0; i < outputs.size(); i++)
+    {
+        cout << outputs[i] << " ";
+    }
+    cout << endl << endl;
+
+    //net.outputNetwork();
 
     // now write to a file, then read it in again
     net.toFile(string("test.net"));
@@ -48,7 +62,7 @@ int main()
     }
     cout << endl << endl;
 
-    net.outputNetwork();
+    //net.outputNetwork();
 
     return 0;
 }

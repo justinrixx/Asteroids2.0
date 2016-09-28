@@ -38,11 +38,11 @@ public:
     void outputNetwork();
 
 private:
-    void makeLayer(std::vector<std::vector<float> > &layer, int numInputs, int numNodes);
-    void makeNode(std::vector<float> &node, int numInputs);
-    void getOutputs(const std::vector<std::vector<float> > & layer, std::vector<double> & outputs, const std::vector<double> & inputs);
+    void makeLayer(std::vector<std::vector<double> > &layer, int numInputs, int numNodes);
+    void makeNode(std::vector<double> &node, int numInputs);
+    void getOutputs(const std::vector<std::vector<double> > & layer, std::vector<double> & outputs, const std::vector<double> & inputs);
 
-    std::vector<std::vector<std::vector<float> > > layers;
+    std::vector<std::vector<std::vector<double> > > layers;
     int numInputs;
     int numOutputs;
     std::vector<int> topology;
