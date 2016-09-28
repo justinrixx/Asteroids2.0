@@ -21,6 +21,12 @@ public:
 
     NNAI(Game * game, Network net) : AI(game), mNetwork(net) { };
 
+    void setNetwork(Network net) { mNetwork = net; };
+
+    void toFile(const std::string & filename) { mNetwork.toFile(filename); };
+
+    void fromFile(const std::string & filename) { mNetwork.fromFile(filename); };
+
 protected:
     virtual void move(const Ship & playerShip)
     {
