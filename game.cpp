@@ -263,3 +263,16 @@ void Game :: update(const Interface * pUI)
 		}
 	}
 }
+
+void Game::reset()
+{
+	mPlayer.init(3);
+	score = 0;
+	numSmallKilled = 0;
+	rocks.clear();
+	bullets.clear();
+	debris.clear();
+
+	addRock(new LRock());
+	addRock(new LRock());
+}

@@ -29,7 +29,7 @@ class Game
 {
 public:
 
-	Game() : mPlayer(), score(0), numSmallKilled(0), pAI(NULL) {};
+	Game() : mPlayer(), score(0), numSmallKilled(0), pAI(NULL) { addRock(new LRock()); addRock(new LRock()); };
 
 	// add a bullet
 	void addBullet(Bullet * pBullet)
@@ -54,6 +54,11 @@ public:
 
 	// set up the AI
 	void setAI(AI * ai) { pAI = ai; };
+
+	// reset the game state
+	void reset();
+
+	bool isGameOver() { return mPlayer.isGameOver(); };
 
 	// get the rocks. used by the AI
 	std::list<Rock *> & getRocks() { return rocks; };

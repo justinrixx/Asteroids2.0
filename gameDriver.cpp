@@ -11,15 +11,14 @@ using namespace std;
  **************************************/
 void callBack(const Interface *pUI, void *p)
 {
-	// cast the pointer back to the correct type
-  Game * pGame = (Game *)p;
+    // cast the pointer back to the correct type
+    Game * pGame = (Game *)p;
 
-  // update the game
-  pGame->update(pUI);
+    // update the game
+    pGame->update(pUI);
 
-  // draw the game
-  pGame->draw();
-
+    // draw the game
+    pGame->draw();
 }
 
 /***********************************************
@@ -28,29 +27,29 @@ void callBack(const Interface *pUI, void *p)
  **********************************************/
 int main(int argc, char ** argv)
 {
-  srand(clock());
-  // instantiate the game object
-  Game * pGame = new Game();
+    srand(clock());
+    // instantiate the game object
+    Game * pGame = new Game();
 
-  vector<int> topology;
-  topology.push_back(10);
-  topology.push_back(10);
-  topology.push_back(10);
+    vector<int> topology;
+    topology.push_back(10);
+    topology.push_back(10);
+    topology.push_back(10);
 
-  Network net(31, 4, topology);
+    Network net(31, 4, topology);
 
-  // instantiate an AI
-  //SimpleAI ai(pGame);
-  //RandomAI ai(pGame);
-  NNAI ai(pGame, net);
+    // instantiate an AI
+    //SimpleAI ai(pGame);
+    //RandomAI ai(pGame);
+    NNAI ai(pGame, net);
 
-  // the game needs a reference to the AI
-  pGame->setAI(&ai);
-  pGame->addRock(new LRock());
-  pGame->addRock(new LRock());
+    // the game needs a reference to the AI
+    pGame->setAI(&ai);
+    //pGame->addRock(new LRock());
+    //pGame->addRock(new LRock());
 
-  Interface ui(argc, argv, "Game Test");
-  ui.run(callBack, pGame);
+    Interface ui(argc, argv, "Game Test");
+    ui.run(callBack, pGame);
 
-  return 0;
+    return 0;
 }

@@ -39,7 +39,9 @@ public:
 	/* The game goes until there are no more lives */
 	bool isGameOver() { return !numLives; };
 
-	const Vector & getVector() const { return mShip.getVector(); }; 
+	const Vector & getVector() const { return mShip.getVector(); };
+
+	void init(int numLives) { this->numLives = numLives; init(); };
 
 private:
 	void init() { mShip.init(); nextTick = NULL_TICK; };
