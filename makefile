@@ -5,27 +5,27 @@
 #########################################################
 # The game
 #########################################################
-gameDriver: game.o gameDriver.cpp point.h bullet.h uiInteract.o uiDraw.o player.o ship.o network.o rock.h vector.h simpleai.h randomai.h network.h neuralnetai.h
-	g++ -o gameDriver gameDriver.cpp game.o uiDraw.o uiInteract.o player.o ship.o network.o -lglut -lGL -lGLU
-naiveTrainer: game.o naiveTraining.cpp point.h bullet.h uiInteract.o uiDraw.o player.o ship.o network.o rock.h vector.h network.h neuralnetai.h
-	g++ -o naiveTrainer naiveTraining.cpp game.o uiDraw.o uiInteract.o player.o ship.o network.o -lglut -lGL -lGLU
+gameDriver.out: game.o gameDriver.cpp point.h bullet.h uiInteract.o uiDraw.o player.o ship.o network.o rock.h vector.h simpleai.h randomai.h network.h neuralnetai.h
+	g++ -o gameDriver.out gameDriver.cpp game.o uiDraw.o uiInteract.o player.o ship.o network.o -lglut -lGL -lGLU
+naiveTrainer.out: game.o naiveTraining.cpp point.h bullet.h uiInteract.o uiDraw.o player.o ship.o network.o rock.h vector.h network.h neuralnetai.h
+	g++ -o naiveTrainer.out naiveTraining.cpp game.o uiDraw.o uiInteract.o player.o ship.o network.o -lglut -lGL -lGLU
 
 
 #########################################################
 # Component drivers
 #########################################################
-networkDriver: network.h network.o uiDraw.o networkTest.cpp
-	g++ -o networkDriver networkTest.cpp network.o uiDraw.o -lglut -lGL -lGLU
-bulletDriver: point.h bullet.h uiInteract.o uiDraw.o bulletDriver.cpp
-	g++ -o bulletDriver bulletDriver.cpp uiDraw.o uiInteract.o -lglut -lGL -lGLU
-drawTest: point.h uiDraw.o uiInteract.o drawTest.cpp
-	g++ -o drawTest drawTest.cpp uiDraw.o uiInteract.o -lglut -lGL -lGLU
-rockDriver: rock.h uiDraw.o uiInteract.o rockDriver.cpp
-	g++ -o rockDriver rockDriver.cpp uiDraw.o uiInteract.o -lglut -lGL -lGLU
-playerDriver: player.o ship.o uiDraw.o uiInteract.o game.h playerDriver.cpp
-	g++ -o playerDriver playerDriver.cpp player.o ship.o uiDraw.o uiInteract.o -lglut -lGL -lGLU
-shipDriver: ship.o uiDraw.o uiInteract.o shipDriver.cpp
-	g++ -o shipDriver shipDriver.cpp ship.o uiDraw.o uiInteract.o -lglut -lGL -lGLU
+networkDriver.out: network.h network.o uiDraw.o networkTest.cpp
+	g++ -o networkDriver.out networkTest.cpp network.o uiDraw.o -lglut -lGL -lGLU
+bulletDriver.out: point.h bullet.h uiInteract.o uiDraw.o bulletDriver.cpp
+	g++ -o bulletDriver.out bulletDriver.cpp uiDraw.o uiInteract.o -lglut -lGL -lGLU
+drawTest.out: point.h uiDraw.o uiInteract.o drawTest.cpp
+	g++ -o drawTest.out drawTest.cpp uiDraw.o uiInteract.o -lglut -lGL -lGLU
+rockDriver.out: rock.h uiDraw.o uiInteract.o rockDriver.cpp
+	g++ -o rockDriver.out rockDriver.cpp uiDraw.o uiInteract.o -lglut -lGL -lGLU
+playerDriver.out: player.o ship.o uiDraw.o uiInteract.o game.h playerDriver.cpp
+	g++ -o playerDriver.out playerDriver.cpp player.o ship.o uiDraw.o uiInteract.o -lglut -lGL -lGLU
+shipDriver.out: ship.o uiDraw.o uiInteract.o shipDriver.cpp
+	g++ -o shipDriver.out shipDriver.cpp ship.o uiDraw.o uiInteract.o -lglut -lGL -lGLU
 
 #########################################################
 # Individual components
