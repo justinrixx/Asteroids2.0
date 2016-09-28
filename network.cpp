@@ -22,7 +22,7 @@ void Network::init(int numInputs, int numOutputs, const std::vector<int> & topol
     }
 
     // input layer
-    std::vector<std::vector<float> > inputLayer;
+    std::vector<std::vector<double> > inputLayer;
     makeLayer(inputLayer, numInputs, topology[0]);
     layers.push_back(inputLayer);
 
@@ -30,13 +30,13 @@ void Network::init(int numInputs, int numOutputs, const std::vector<int> & topol
     for (int i = 1; i < topology.size(); i++)
     {
         // make the layer
-        std::vector<std::vector<float> > layer;
+        std::vector<std::vector<double> > layer;
         makeLayer(layer, layers[i - 1].size(), topology[i]);
         layers.push_back(layer);
     }
 
     // output layer
-    std::vector<std::vector<float> > outputLayer;
+    std::vector<std::vector<double> > outputLayer;
     makeLayer(outputLayer, layers[layers.size() - 1].size(), numOutputs);
     layers.push_back(outputLayer);
 }
@@ -139,12 +139,12 @@ void Network::fromFile(std::string filename)
     assert(topologySize == topology.size());
 
     // input layer
-    std::vector<std::vector<float> > inputLayer;
+    std::vector<std::vector<double> > inputLayer;
 
     for (int i = 0; i < topology[0]; i++)
     {
-        float weight = 0;
-        std::vector<float> node;
+        double weight = 0;
+        std::vector<double> node;
 
         // +1 for the bias
         for (int j = 0; j < numInputs + 1; j++)
@@ -160,12 +160,12 @@ void Network::fromFile(std::string filename)
 
     for (int i = 1; i < topologySize; i++)
     {
-        std::vector<std::vector<float> > layer;
+        std::vector<std::vector<double> > layer;
 
         for (int j = 0; j < topology[i]; j++)
         {
-            float weight = 0;
-            std::vector<float> node;
+            double weight = 0;
+            std::vector<double> node;
 
             for (int k = 0; k < layers[i - 1].size() + 1; k++)
             {
@@ -180,12 +180,12 @@ void Network::fromFile(std::string filename)
     }
 
     // output layer
-    std::vector<std::vector<float> > outputLayer;
+    std::vector<std::vector<double> > outputLayer;
 
     for (int i = 0; i < numOutputs; i++)
     {
-        float weight = 0;
-        std::vector<float> node;
+        double weight = 0;
+        std::vector<double> node;
 
         // +1 for the bias
         for (int j = 0; j < topology[topology.size() - 1] + 1; j++)
@@ -203,11 +203,11 @@ void Network::fromFile(std::string filename)
 /**
  * A helper function to build a layer in the neural net
  */
-void Network::makeLayer(std::vector<std::vector<float> > &layer, int numInputs, int numNodes)
+void Network::makeLayer(std::vector<std::vector<double> > &layer, int numInputs, int numNodes)
 {
     for (int i = 0; i < numNodes; i++)
     {
-        std::vector<float> node;
+        std::vector<double> node;
         makeNode(node, numInputs);
 
         layer.push_back(node);
@@ -217,7 +217,7 @@ void Network::makeLayer(std::vector<std::vector<float> > &layer, int numInputs, 
 /**
  * A helper function to build a node in the neural net
  */
-void Network::makeNode(std::vector<float> &node, int numInputs)
+void Network::makeNode(std::vector<double> &node, int numInputs)
 {
     // numInputs + 1 for the bias
     for (int i = 0; i < numInputs + 1; i++)
@@ -229,21 +229,26 @@ void Network::makeNode(std::vector<float> &node, int numInputs)
 /**
  * A helper function to get the output of a layer
  */
-void Network::getOutputs(const std::vector<std::vector<float> > & layer, std::vector<double> & outputs,
+void Network::getOutputs(const std::vector<std::vector<double> > & layer, std::vector<double> & outputs,
                          const std::vector<double> & inputs)
 {
     for (int i = 0; i < layer.size(); i++)
     {
-        //assert(layer[i].size() == inputs.size() + 1);
+        assert(layer[i].size() == inputs.size() + 1);
 
-        float total = 0;
-        for (int j = 0; j < layer[i].size(); j++)
+        double total = 0;
+        for (int j = 0; j < layer[i].size() - 1; j++)
         {
+            std::cerr << "w: " << layer[i][j] << "i: " << inputs[j] << std::endl;
             total += inputs[j] * layer[i][j];
         }
 
         // bias node
+        std::cerr << "w: " << layer[i][layer[i].size() - 1] << "i: " << -1 << std::endl;
         total += layer[i][layer[i].size() - 1] * -1;
+
+        double output = tanh(total);
+        std::cerr << "total: " << total << " output: " << output << std::endl;
 
         outputs.push_back(tanh(total));
     }
@@ -261,10 +266,10 @@ Network::Network(const Network & rhs)
 
     for (int i = 0; i < rhs.layers.size(); i++)
     {
-        std::vector<std::vector<float> > layer;
+        std::vector<std::vector<double> > layer;
         for (int j = 0; j < rhs.layers[i].size(); j++)
         {
-            std::vector<float> node;
+            std::vector<double> node;
             for (int k = 0; k < rhs.layers[i][j].size(); k++)
             {
                 node.push_back(rhs.layers[i][j][k]);
