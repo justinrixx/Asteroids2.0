@@ -16,7 +16,7 @@ void usage(char * name)
     cout << "Usage: " << name << " i p t1 t2 ... tn" << endl
          << "\ti:  The number of iterations desired" << endl
          << "\tp:  The desired population size" << endl
-         << "\ttn: The number of nodes in the nth hidden layer";
+         << "\ttn: The number of nodes in the nth hidden layer" << endl;
 }
 
 /***********************************************
@@ -71,7 +71,7 @@ int main(int argc, char ** argv)
         // make the directory for the generation
         ss << dirName << iteration;
         string dir = ss.str();
-        mkdir(dir.c_str(), 0666);
+        mkdir(dir.c_str(), 0755);
 
         ss.str("");
         ss.clear();
@@ -88,7 +88,7 @@ int main(int argc, char ** argv)
 
         for (int organism = 0; organism < brains->size(); organism++)
         {
-            ss << dirName << "/" << organism << ".net";
+            ss << dirName << iteration << "/" << organism << ".net";
             string organismFileName = ss.str();
 
             ss.str("");
@@ -110,7 +110,10 @@ int main(int argc, char ** argv)
             // save the score
             ai.toFile(organismFileName);
             (*brains)[organism].first = score;
-            index << score << "," << organismFileName << endl;
+            index << score << ","
+                  // just weird stuff to only get the filename, not the directory names
+                  << organismFileName.substr(organismFileName.find_last_of("/") + 1, organismFileName.size() - 1)
+                  << endl;
 
             if (organism != 0)
             {

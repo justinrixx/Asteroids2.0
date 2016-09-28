@@ -3,10 +3,12 @@
 #########################################################
 
 #########################################################
-# The real deal
+# The game
 #########################################################
-gameDriver: game.o gameDriver.cpp point.h bullet.h uiInteract.o uiDraw.o player.o ship.o network.o rock.h bullet.h vector.h simpleai.h randomai.h network.h neuralnetai.h
+gameDriver: game.o gameDriver.cpp point.h bullet.h uiInteract.o uiDraw.o player.o ship.o network.o rock.h vector.h simpleai.h randomai.h network.h neuralnetai.h
 	g++ -o gameDriver gameDriver.cpp game.o uiDraw.o uiInteract.o player.o ship.o network.o -lglut -lGL -lGLU
+naiveTrainer: game.o naiveTraining.cpp point.h bullet.h uiInteract.o uiDraw.o player.o ship.o network.o rock.h vector.h network.h neuralnetai.h
+	g++ -o naiveTrainer naiveTraining.cpp game.o uiDraw.o uiInteract.o player.o ship.o network.o -lglut -lGL -lGLU
 
 
 #########################################################
@@ -40,3 +42,9 @@ uiDraw.o: uiDraw.cpp uiDraw.h point.h
 	g++ -c uiDraw.cpp
 uiInteract.o: uiInteract.cpp uiInteract.h point.h
 	g++ -c uiInteract.cpp
+
+########################################################
+# Clean up
+########################################################
+clean:
+	rm -rf generation* points.csv
