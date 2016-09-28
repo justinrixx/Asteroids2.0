@@ -239,16 +239,11 @@ void Network::getOutputs(const std::vector<std::vector<double> > & layer, std::v
         double total = 0;
         for (int j = 0; j < layer[i].size() - 1; j++)
         {
-            std::cerr << "w: " << layer[i][j] << "i: " << inputs[j] << std::endl;
             total += inputs[j] * layer[i][j];
         }
 
         // bias node
-        std::cerr << "w: " << layer[i][layer[i].size() - 1] << "i: " << -1 << std::endl;
         total += layer[i][layer[i].size() - 1] * -1;
-
-        double output = tanh(total);
-        std::cerr << "total: " << total << " output: " << output << std::endl;
 
         outputs.push_back(tanh(total));
     }
