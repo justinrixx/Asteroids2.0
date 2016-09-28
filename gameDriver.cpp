@@ -37,10 +37,12 @@ int main(int argc, char ** argv)
   topology.push_back(10);
   topology.push_back(10);
 
+  Network net(31, 4, topology);
+
   // instantiate an AI
   //SimpleAI ai(pGame);
   //RandomAI ai(pGame);
-  NNAI ai(pGame, topology);
+  NNAI ai(pGame, net);
 
   // the game needs a reference to the AI
   pGame->setAI(&ai);
