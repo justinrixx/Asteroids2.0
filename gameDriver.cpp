@@ -45,10 +45,8 @@ int main(int argc, char ** argv)
 
     // the game needs a reference to the AI
     pGame->setAI(&ai);
-    //pGame->addRock(new LRock());
-    //pGame->addRock(new LRock());
 
-    Interface ui(argc, argv, "Game Test");
+    Interface ui(argc, argv, "Asteroids");
     ui.run(callBack, pGame);
 
     return 0;
