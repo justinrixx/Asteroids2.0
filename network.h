@@ -34,6 +34,12 @@ public:
     // read from a file
     void fromFile(const std::string & filename);
 
+    // single point crossover
+    std::vector<Network *> * spCrossover(const Network & rhs);
+
+    // uniform crossover
+    std::vector<Network *> * uCrossover(const Network & rhs);
+
     // for debugging
     void outputNetwork();
 

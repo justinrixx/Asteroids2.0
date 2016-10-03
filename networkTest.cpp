@@ -9,9 +9,33 @@
 
 using namespace std;
 
+void testCrossover()
+{
+    vector<int> topology;
+    topology.push_back(2);
+    topology.push_back(2);
+    topology.push_back(2);
+
+    Network mom(4, 4, topology);
+    Network dad(4, 4, topology);
+
+    vector<Network *> * pVector = mom.uCrossover(dad);
+
+    cout << "Mom & Dad" << endl;
+    mom.outputNetwork();
+    dad.outputNetwork();
+
+    cout << "Brother & Sister" << endl;
+    (*pVector)[0]->outputNetwork();
+    (*pVector)[1]->outputNetwork();
+}
+
 int main()
 {
     srand(clock());
+
+    testCrossover();
+    return 0;
 
     vector<double> outputs;
 

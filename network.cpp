@@ -289,3 +289,97 @@ void Network::outputNetwork()
     }
     std::cerr << std::endl << std::endl;
 }
+
+/**
+ * Single point crossover
+ * Returns a pointer to a vector of two networks generated. Each is the
+ * mirror of the other.
+ */
+std::vector<Network *> * Network::spCrossover(const Network &rhs)
+{
+    int total = 0;
+
+    for (int i = 0; i < layers.size(); i++)
+    {
+        for (int j = 0; j < layers[i].size(); j++)
+        {
+            total += layers[i][j].size();
+        }
+    }
+
+    std::vector<Network *> * vector = new std::vector<Network *>();
+
+    // one for each offspring
+    vector->push_back(new Network(numInputs, numOutputs, topology));
+    vector->push_back(new Network(numInputs, numOutputs, topology));
+
+    // find the split point
+    int split = random(1, total - 1);
+
+    int index = 0;
+
+    for (int i = 0; i < layers.size(); i++)
+    {
+        for (int j = 0; j < layers[i].size(); j++)
+        {
+            for (int k = 0; k < layers[i][j].size(); k++)
+            {
+                if (index < split)
+                {
+                    (*vector)[0]->layers[i][j][k] = this->layers[i][j][k];
+                    (*vector)[1]->layers[i][j][k] = rhs.layers[i][j][k];
+                }
+                else
+                {
+                    (*vector)[1]->layers[i][j][k] = this->layers[i][j][k];
+                    (*vector)[0]->layers[i][j][k] = rhs.layers[i][j][k];
+                }
+
+                ++index;
+            }
+        }
+    }
+
+    return vector;
+}
+
+/**
+ * Uniform crossover
+ * Returns a pointer to a vector of two networks generated. Each is the
+ * mirror of the other.
+ */
+std::vector<Network *> * Network::uCrossover(const Network &rhs)
+{
+    std::vector<Network *> * vector = new std::vector<Network *>();
+
+    // one for each offspring
+    vector->push_back(new Network(numInputs, numOutputs, topology));
+    vector->push_back(new Network(numInputs, numOutputs, topology));
+
+    int coin = 0;
+
+    for (int i = 0; i < layers.size(); i++)
+    {
+        for (int j = 0; j < layers[i].size(); j++)
+        {
+            for (int k = 0; k < layers[i][j].size(); k++)
+            {
+                // flip a coin to decide which parent
+                coin = random(0, 2);
+
+                if (coin == 0)
+                {
+                    (*vector)[0]->layers[i][j][k] = this->layers[i][j][k];
+                    (*vector)[1]->layers[i][j][k] = rhs.layers[i][j][k];
+                }
+                else
+                {
+                    (*vector)[1]->layers[i][j][k] = this->layers[i][j][k];
+                    (*vector)[0]->layers[i][j][k] = rhs.layers[i][j][k];
+                }
+            }
+        }
+    }
+
+    return vector;
+}
