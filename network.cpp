@@ -414,10 +414,12 @@ void Network::mutate()
                 if (die == 0)
                 {
                     double r = random(-5.0, 5.0);
-                    std::cerr << "mutating. before: " << layers[i][j][k] << std::endl;
-                    std::cerr << "r: " << r << std::endl;   
-                    layers[i][j][k] *= r;
-                    std::cerr << "after: " << layers[i][j][k] << std::endl;
+
+                    if (layers[i][j][k] != 0.0)
+                        layers[i][j][k] *= r;
+
+                    else
+                        layers[i][j][k] += r;
                 }
             }
         }
