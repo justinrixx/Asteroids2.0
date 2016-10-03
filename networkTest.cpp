@@ -30,11 +30,27 @@ void testCrossover()
     (*pVector)[1]->outputNetwork();
 }
 
+void testMutate()
+{
+    vector<int> topology;
+    topology.push_back(2);
+    topology.push_back(2);
+    topology.push_back(2);
+
+    Network net(4, 4, topology);
+
+    net.outputNetwork();
+
+    net.mutate();
+
+    net.outputNetwork();
+}
+
 int main()
 {
     srand(clock());
 
-    testCrossover();
+    testMutate();
     return 0;
 
     vector<double> outputs;

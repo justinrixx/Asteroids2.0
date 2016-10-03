@@ -383,3 +383,43 @@ std::vector<Network *> * Network::uCrossover(const Network &rhs)
 
     return vector;
 }
+
+/**
+ * Mutate the network in-place. The mutation just changes a weight to something else.
+ * The probability of this happening is 1 / L where L is the number of weights in the
+ * entire network. This means that sometimes nothing will be mutated, and sometimes
+ * many weights will be mutated. It's possible for all the weights to be mutated.
+ */
+void Network::mutate()
+{
+    // figure out the probability space
+    int L = 0;
+    for (int i = 0; i < layers.size(); i++)
+    {
+        for (int j = 0; j < layers[i].size(); j++)
+        {
+            L += layers[i][j].size();
+        }
+    }
+
+    int die = 0;
+    for (int i = 0; i < layers.size(); i++)
+    {
+        for (int j = 0; j < layers[i].size(); j++)
+        {
+            for (int k = 0; k < layers[i][j].size(); k++)
+            {
+                die = random(0, L);
+
+                if (die == 0)
+                {
+                    double r = random(-5.0, 5.0);
+                    std::cerr << "mutating. before: " << layers[i][j][k] << std::endl;
+                    std::cerr << "r: " << r << std::endl;   
+                    layers[i][j][k] *= r;
+                    std::cerr << "after: " << layers[i][j][k] << std::endl;
+                }
+            }
+        }
+    }
+}

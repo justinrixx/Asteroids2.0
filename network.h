@@ -40,6 +40,9 @@ public:
     // uniform crossover
     std::vector<Network *> * uCrossover(const Network & rhs);
 
+    // mutate the dna to something slightly different
+    void mutate();
+
     // for debugging
     void outputNetwork();
 
