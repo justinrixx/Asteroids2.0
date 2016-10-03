@@ -131,6 +131,9 @@ int main(int argc, char ** argv)
                   << organismFileName.substr(organismFileName.find_last_of("/") + 1, organismFileName.size() - 1)
                   << endl;
 
+            points << iteration << "," << score << endl;
+
+            /*
             if (organism != 0)
             {
                 points << "," << score;
@@ -139,6 +142,7 @@ int main(int argc, char ** argv)
             {
                 points << endl << score;
             }
+            */
         }
 
         index.close();
