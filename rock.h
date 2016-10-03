@@ -18,9 +18,9 @@
 #define LARGE_RANDOM 2.0
 #define MED_RANDOM 2.5
 #define SMALL_RANDOM 3.0
-#define SMALL_POINTS 50
-#define MED_POINTS 75
-#define LARGE_POINTS 100
+#define SMALL_POINTS 2
+#define MED_POINTS 4
+#define LARGE_POINTS 7
 
 class Rock
 {
