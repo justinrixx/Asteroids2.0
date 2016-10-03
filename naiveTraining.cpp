@@ -51,6 +51,9 @@ int main(int argc, char ** argv)
     vector<pair<int, Network * > > * brains = new vector<pair<int, Network * > >();
     vector<pair<int, Network * > > * nextGeneration = new vector<pair<int, Network * > >();
 
+    // instantiate the game object
+    Game *pGame = new Game();
+
     // randomize the brains
     for (int i = 0; i < populationSize; i++)
     {
@@ -77,9 +80,6 @@ int main(int argc, char ** argv)
         ss.clear();
 
         ofstream index((dir + "/index.csv").c_str());
-
-        // instantiate the game object
-        Game *pGame = new Game();
 
         Network net(NETWORK_INPUTS, NETWORK_OUTPUTS, topology);
         NNAI ai(pGame, net);
@@ -129,6 +129,11 @@ int main(int argc, char ** argv)
     }
 
     points.close();
+
+    // clean up
+    delete brains;
+    delete nextGeneration;
+    delete pGame;
 
     return 0;
 }
