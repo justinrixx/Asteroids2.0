@@ -269,9 +269,26 @@ void Game::reset()
 	mPlayer.init(3);
 	score = 0;
 	numSmallKilled = 0;
+
+	// delete the objects
+	list<Rock *>::iterator itr;
+	for (itr = rocks.begin(); itr != rocks.end(); ++itr)
+		delete *itr;
+
+	list<Bullet *>::iterator itb;
+	for (itb = bullets.begin(); itb != bullets.end(); ++itb)
+		delete *itb;
+
+	list<Debris *>::iterator itd;
+	for (itd = debris.begin(); itd != debris.end(); ++itd)
+		delete *itd;
+
+	// delete the pointers
 	rocks.clear();
 	bullets.clear();
 	debris.clear();
+
+	srand(seed);
 
 	addRock(new LRock());
 	addRock(new LRock());

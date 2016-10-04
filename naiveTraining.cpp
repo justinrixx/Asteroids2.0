@@ -10,6 +10,8 @@
 #include "game.h"
 #include "neuralnetai.h"
 
+#define SEED 12345
+
 using namespace std;
 
 void usage(char * name)
@@ -66,6 +68,7 @@ int main(int argc, char ** argv)
 
     // instantiate the game object
     Game *pGame = new Game();
+    pGame->setSeed(SEED);
 
     // randomize the brains
     for (int i = 0; i < populationSize; i++)
@@ -84,6 +87,8 @@ int main(int argc, char ** argv)
 
     for (int iteration = 0; iteration < numIterations; iteration++)
     {
+        cerr << "Generation " << iteration << endl;
+
         // make the directory for the generation
         ss << dirName << iteration;
         string dir = ss.str();
@@ -107,9 +112,10 @@ int main(int argc, char ** argv)
             ss.str("");
             ss.clear();
 
-            cerr << "Changing to organism " << organism << endl;
             // set the brains
             ai.setNetwork(*(brains[organism]->second));
+
+            pGame->reset();
 
             // run the simulation
             while (!pGame->isGameOver())
@@ -119,9 +125,6 @@ int main(int argc, char ** argv)
 
             // set the score and clean up
             int score = pGame->getScore();
-            pGame->reset();
-
-            cerr << "Game done" << endl;
 
             // save the score
             ai.toFile(organismFileName);
@@ -153,12 +156,10 @@ int main(int argc, char ** argv)
         // kill the ones that don't deserve to live
         for (int i = brains.size() - 1; i  > cutoffPoint; i--)
         {
-            cerr << "About to delete an organism" << endl;
             delete brains[i]->second;
             brains.pop_back();
         }
 
-        cerr << "About to make babies" << endl;
         // make new babies
         vector<Network *> hopefulParents;
 
@@ -171,10 +172,10 @@ int main(int argc, char ** argv)
             }
         }
 
-        cerr << "Parents selected" << endl;
-
         while (brains.size() < populationSize)
         {
+            srand(clock());
+
             // pick to parents
             int p1 = random(0, (int)(hopefulParents.size()));
             int p2 = random(0, (int)(hopefulParents.size()));
@@ -185,29 +186,24 @@ int main(int argc, char ** argv)
             (*babies)[0]->mutate();
             (*babies)[1]->mutate();
 
-            cerr << "Got babies" << endl;
-
             // check the fitness of the babies
             int babyFitness = 0;
 
             ai.setNetwork(*(*babies)[0]);
+            pGame->reset();
             while (!pGame->isGameOver())
             {
                 pGame->update(NULL);
             }
-
-            cerr << "Got baby 1 fitness" << endl;
 
             babyFitness = pGame->getScore();
-            pGame->reset();
 
             ai.setNetwork(*(*babies)[1]);
+            pGame->reset();
             while (!pGame->isGameOver())
             {
                 pGame->update(NULL);
             }
-
-            cerr << "Got baby 2 fitness" << endl;
 
             // pick the stronger one
             if (babyFitness > pGame->getScore())
@@ -222,8 +218,6 @@ int main(int argc, char ** argv)
                 pair<int, Network *> * baby = new pair<int, Network *> (babyFitness, (*babies)[1]);
                 brains.push_back(baby);
             }
-
-            pGame->reset();
         }
     }
 

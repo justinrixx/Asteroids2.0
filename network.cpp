@@ -419,7 +419,10 @@ void Network::mutate()
                         layers[i][j][k] *= r;
 
                     else
+                    {
+                        std::cerr << "Weight is 0" << std::endl;
                         layers[i][j][k] += r;
+                    }
                 }
             }
         }

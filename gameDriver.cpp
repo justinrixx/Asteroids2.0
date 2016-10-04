@@ -38,6 +38,9 @@ int main(int argc, char ** argv)
 
     Network net(31, 4, topology);
 
+    if (argc > 1)
+        net.fromFile(argv[1]);
+
     // instantiate an AI
     //SimpleAI ai(pGame);
     //RandomAI ai(pGame);
