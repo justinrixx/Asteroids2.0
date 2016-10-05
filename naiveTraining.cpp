@@ -11,6 +11,7 @@
 #include "neuralnetai.h"
 
 #define SEED 12345
+#define NULL_SCORE -1
 
 using namespace std;
 
@@ -73,7 +74,7 @@ int main(int argc, char ** argv)
     // randomize the brains
     for (int i = 0; i < populationSize; i++)
     {
-        int fitness = 0;
+        int fitness = NULL_SCORE;
         Network * brain = new Network(NETWORK_INPUTS, NETWORK_OUTPUTS, topology);
 
         pair<int, Network *> * p = new pair<int, Network *> (fitness, brain);
@@ -112,29 +113,31 @@ int main(int argc, char ** argv)
             ss.str("");
             ss.clear();
 
-            // set the brains
-            ai.setNetwork(*(brains[organism]->second));
+            if (brains[organism]->first == NULL_SCORE) {
+                // set the brains
+                ai.setNetwork(*(brains[organism]->second));
 
-            pGame->reset();
+                pGame->reset();
 
-            // run the simulation
-            while (!pGame->isGameOver())
-            {
-                pGame->update(NULL);
+                // run the simulation
+                while (!pGame->isGameOver()) {
+                    pGame->update(NULL);
+                }
+
+                // set the score and clean up
+                int score = pGame->getScore();
+                brains[organism]->first = score;
             }
-
-            // set the score and clean up
-            int score = pGame->getScore();
 
             // save the score
             ai.toFile(organismFileName);
-            brains[organism]->first = score;
-            index << score << ","
+
+            index << brains[organism]->first << ","
                   // just weird stuff to only get the filename, not the directory names
                   << organismFileName.substr(organismFileName.find_last_of("/") + 1, organismFileName.size() - 1)
                   << endl;
 
-            points << iteration << "," << score << endl;
+            points << iteration << "," << brains[organism]->first << endl;
 
             /*
             if (organism != 0)
