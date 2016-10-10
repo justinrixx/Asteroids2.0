@@ -254,10 +254,12 @@ void Network::getOutputs(const std::vector<std::vector<double> > & layer, std::v
  */
 Network::Network(const Network & rhs)
 {
-
     this->numInputs = rhs.numInputs;
     this->numOutputs = rhs.numOutputs;
-    this->topology = rhs.topology;
+
+    std::cerr << "about to set the topology. " << rhs.topology.size() << std::endl;
+    for (int i = 0; i < rhs.topology.size(); i++)
+        this->topology.push_back(rhs.topology[i]);
 
     for (int i = 0; i < rhs.layers.size(); i++)
     {
@@ -277,6 +279,8 @@ Network::Network(const Network & rhs)
 
 void Network::outputNetwork()
 {
+    std::cerr << "topology " << topology.size() << " layers " << layers.size() << std::endl;
+
     for (int i = 0; i < layers.size(); i++)
     {
         for (int j = 0; j < layers[i].size(); j++)

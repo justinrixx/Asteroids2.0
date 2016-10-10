@@ -288,8 +288,6 @@ void Game::reset()
 	bullets.clear();
 	debris.clear();
 
-	srand(seed);
-
 	addRock(new LRock());
 	addRock(new LRock());
 }

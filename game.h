@@ -66,8 +66,6 @@ public:
 	int getScore() { return score; };
 	int getNumBullets() { return bullets.size(); };
 
-	void setSeed(int s) { this->seed = s; };
-
 private:
 	AI * pAI;
 	Player mPlayer;
@@ -76,7 +74,6 @@ private:
 	std::list<Debris *> debris;
 	int score;
 	int numSmallKilled;
-	int seed;
 };
 
 

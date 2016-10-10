@@ -46,6 +46,8 @@ public:
     // for debugging
     void outputNetwork();
 
+    void topologySize() { std::cerr << "topology.size() " << topology.size() << std::endl; };
+
 private:
     void makeLayer(std::vector<std::vector<double> > &layer, int numInputs, int numNodes);
     void makeNode(std::vector<double> &node, int numInputs);
