@@ -11,14 +11,28 @@
 
 using namespace std;
 
+int run(string filename);
+
 /***********************************************
  * Main has to initialize the objects to be used
  * and then passes control to the Interface class.
  **********************************************/
 int main(int argc, char ** argv)
 {
+    if (argc > 1)
+        cout << run(argv[1]);
+    else
+        cout << -1;
+
+    return 0;
+}
+
+/**************************************************
+ * This is the actual function that will be called
+ *************************************************/
+int run(string filename)
+{
     srand(clock());
-    // instantiate the game object
     Game * pGame = new Game();
 
     vector<int> topology;
@@ -26,24 +40,14 @@ int main(int argc, char ** argv)
 
     Network net(31, 4, topology);
 
-    if (argc > 1)
-        net.fromFile(argv[1]);
-    else
-    {
-        cout << -1;
-        return 0;
-    }
+    net.fromFile(filename);
 
-    // instantiate an AI
     NNAI ai(pGame, net);
 
-    // the game needs a reference to the AI
     pGame->setAI(&ai);
 
     while (!pGame->isGameOver())
         pGame->update(NULL);
 
-    cout << pGame->getScore();
-
-    return 0;
+    return pGame->getScore();
 }
