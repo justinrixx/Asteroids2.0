@@ -7,9 +7,10 @@
 #########################################################
 gameDriver.out: game.o gameDriver.cpp point.h bullet.h uiInteract.o uiDraw.o player.o ship.o network.o rock.h vector.h simpleai.h randomai.h network.h neuralnetai.h
 	g++ -o gameDriver.out gameDriver.cpp game.o uiDraw.o uiInteract.o player.o ship.o network.o -lglut -lGL -lGLU
-naiveTrainer.out: game.o naiveTraining.cpp point.h bullet.h uiInteract.o uiDraw.o player.o ship.o network.o rock.h vector.h network.h neuralnetai.h
-	g++ -o naiveTrainer.out naiveTraining.cpp game.o uiDraw.o uiInteract.o player.o ship.o network.o -lglut -lGL -lGLU
-
+naiveTrainer.out: game.o naiveTraining.cpp point.h bullet.h uiInteract.o uiDraw.o player.o ship.o network.o rock.h vector.h network.h neuralnetai.h organism.h
+	g++ -o naiveTrainer.out -g naiveTraining.cpp game.o uiDraw.o uiInteract.o player.o ship.o network.o -lglut -lGL -lGLU
+gameNNRunner.out: game.o gameNNRunner.cpp point.h bullet.h uiInteract.o uiDraw.o player.o ship.o network.o rock.h vector.h network.h neuralnetai.h
+	g++ -o gameNNRunner.out gameNNRunner.cpp game.o uiDraw.o uiInteract.o player.o ship.o network.o -lglut -lGL -lGLU
 
 #########################################################
 # Component drivers
@@ -31,17 +32,17 @@ shipDriver.out: ship.o uiDraw.o uiInteract.o shipDriver.cpp
 # Individual components
 #########################################################
 game.o: game.h game.cpp uiDraw.o uiInteract.o player.o ship.o rock.h bullet.h point.h vector.h debris.h
-	g++ -c game.cpp
+	g++ -c game.cpp -g
 player.o: player.h player.cpp uiDraw.o uiInteract.o ship.h game.h
-	g++ -c player.cpp
+	g++ -c player.cpp -g
 ship.o: ship.h ship.cpp uiDraw.o uiInteract.o bullet.h
-	g++ -c ship.cpp
+	g++ -c ship.cpp -g
 network.o: network.h network.cpp
-	g++ -c network.cpp
+	g++ -c network.cpp -g
 uiDraw.o: uiDraw.cpp uiDraw.h point.h
-	g++ -c uiDraw.cpp
+	g++ -c uiDraw.cpp -g
 uiInteract.o: uiInteract.cpp uiInteract.h point.h
-	g++ -c uiInteract.cpp
+	g++ -c uiInteract.cpp -g
 
 ########################################################
 # Clean up
