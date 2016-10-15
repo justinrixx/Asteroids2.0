@@ -9,26 +9,9 @@
 #include <algorithm>
 #include "game.h"
 #include "neuralnetai.h"
+#include "organism.h"
 
 using namespace std;
-
-/**
- * This is everything about an organism
- */
-struct Tuple
-{
-    // the actual brain
-    Network * pNet;
-
-    // its fitness average
-    int fitness;
-
-    // how many generations it has lasted
-    int generation;
-
-    // a name so tracking across generations is possible
-    string name;
-};
 
 void usage(char * name)
 {
@@ -43,14 +26,14 @@ void usage(char * name)
  * This function puts the bigger ones at the front of the vector.
  * It only compares the fitness, so that's all that matters.
  */
-bool pairComparison(const Tuple * a,const Tuple * b)
+bool pairComparison(const Organism a,const Organism b)
 {
-    return a->fitness > b->fitness;
+    return a.fitness > b.fitness;
 }
 
-void generateBrains(vector<Tuple * > & brains, Game * pGame, int p, const vector<int> & topology, NNAI & ai);
-void killStuff(vector<Tuple * > & brains, int cutoff);
-void repopulate(vector<Tuple * > & brains, Game * pGame, int p, int generation, NNAI & ai);
+void generateBrains(vector<Organism> & brains, Game * pGame, int p, const vector<int> & topology, NNAI & ai);
+void killStuff(vector<Organism> & brains, int cutoff);
+void repopulate(vector<Organism> & brains, Game * pGame, int p, int generation, NNAI & ai);
 
 /***********************************************
  * Do the things!
@@ -84,7 +67,7 @@ int main(int argc, char ** argv)
     // init the randomness!
     srand(clock());
 
-    vector<Tuple * > brains;
+    vector<Organism> brains;
 
     // instantiate the game object
     Game *pGame = new Game();
@@ -116,34 +99,19 @@ int main(int argc, char ** argv)
         // replenish the earth
         killStuff(brains, cutoffPoint);
 
-        cerr << "BRAINS ================================= " << brains.size() << endl;
-        for (int i = 0; i < brains.size(); i++)
-        {
-            cerr << brains[i]->name << endl;
-            brains[i]->pNet->outputNetwork();
-            cerr << "--------------------" << endl;
-        }
-
         repopulate(brains, pGame, populationSize, iteration, ai);
-        cerr << "After repopulation" << endl;
-        cerr << "BRAINS ================================= " << brains.size() << endl;
-        for (int i = 0; i < brains.size(); i++)
-        {
-            cerr << brains[i]->name << endl;
-            brains[i]->pNet->outputNetwork();
-            cerr << "--------------------" << endl;
-        }
 
         for (int organism = 0; organism < brains.size(); organism++)
         {
-            ss << dirName << iteration << "/" << brains[organism]->name;
+            ss << dirName << iteration << "/" << brains[organism].name;
             string organismFileName = ss.str();
 
             ss.str("");
             ss.clear();
 
             // set the brains
-            ai.setNetwork(*(brains[organism]->pNet));
+            brains[organism].pNet->topologySize();
+            ai.setNetwork(*(brains[organism].pNet));
 
             pGame->reset();
 
@@ -157,21 +125,21 @@ int main(int argc, char ** argv)
             int score = pGame->getScore();
 
             // this maintains an unweighted average across generations
-            brains[organism]->fitness =
-                    (int)((((float)(brains[organism]->generation - 1) / brains[organism]->generation) * brains[organism]->fitness)
-                    + ((1.0 / brains[organism]->generation) * score));
+            brains[organism].fitness =
+                    (int)((((float)(brains[organism].generation - 1) / brains[organism].generation) * brains[organism].fitness)
+                    + ((1.0 / brains[organism].generation) * score));
 
-            brains[organism]->generation += 1;
+            brains[organism].generation += 1;
 
             // save the score
             ai.toFile(organismFileName);
 
-            index << brains[organism]->fitness << ","
+            index << brains[organism].fitness << ","
                   // just weird stuff to only get the filename, not the directory names
                   << organismFileName.substr(organismFileName.find_last_of("/") + 1, organismFileName.size() - 1)
                   << endl;
 
-            points << iteration << "," << brains[organism]->name << endl;
+            points << iteration << "," << brains[organism].fitness << endl;
         }
 
         index.close();
@@ -189,7 +157,7 @@ int main(int argc, char ** argv)
  * This is where the initial population is generated. The brains are random,
  * and they are pre-evaluated.
  */
-void generateBrains(vector<Tuple * > & brains, Game * pGame, int p, const vector<int> & topology, NNAI & ai)
+void generateBrains(vector<Organism> & brains, Game * pGame, int p, const vector<int> & topology, NNAI & ai)
 {
     ostringstream ss;
 
@@ -197,24 +165,25 @@ void generateBrains(vector<Tuple * > & brains, Game * pGame, int p, const vector
     {
         ss << 0 << "-" << i << ".net";
 
-        Tuple * organism = new Tuple;
-        cerr << "Topology size: " << topology.size() << endl;
-        organism->pNet = new Network(NETWORK_INPUTS, NETWORK_OUTPUTS, topology);
-        organism->name = ss.str();
-        organism->generation = 2;
+        Organism organism;
+        organism.pNet = new Network(NETWORK_INPUTS, NETWORK_OUTPUTS, topology);
+        organism.name = ss.str();
+        organism.generation = 2;
 
         // evaluate it
-        ai.setNetwork(*organism->pNet);
+        ai.setNetwork(*organism.pNet);
         pGame->reset();
         while (!pGame->isGameOver())
             pGame->update(NULL);
 
-        organism->fitness = pGame->getScore();
+        organism.fitness = pGame->getScore();
 
         ss.str("");
         ss.clear();
 
         brains.push_back(organism);
+
+        assert(brains[brains.size() - 1].pNet != NULL);
     }
 }
 
@@ -224,7 +193,7 @@ void generateBrains(vector<Tuple * > & brains, Game * pGame, int p, const vector
  * is measured from the beginning of the list up to where the organisms
  * stop living and start dying.
  */
-void killStuff(vector<Tuple * > & brains, int cutoff)
+void killStuff(vector<Organism> & brains, int cutoff)
 {
     // best ones at the beginning, worst at the end
     sort(brains.begin(), brains.end(), pairComparison);
@@ -232,8 +201,13 @@ void killStuff(vector<Tuple * > & brains, int cutoff)
     // kill the ones that don't deserve to live
     for (int i = brains.size() - 1; i  > cutoff; i--)
     {
-        delete brains[i]->pNet;
+        assert(brains[i].pNet != NULL);
+
+        cerr << "about to delete" << endl;
+        delete brains[i].pNet;
+        brains[i].pNet = NULL;
         brains.pop_back();
+        cerr << "after delete" << endl;
     }
 }
 
@@ -242,7 +216,7 @@ void killStuff(vector<Tuple * > & brains, int cutoff)
  * down to the survivors, and the population will be replenished until it is size
  * p. The generation is passed in so that the babies can be named correctly.
  */
-void repopulate(vector<Tuple * > & brains, Game * pGame, int p, int generation, NNAI & ai)
+void repopulate(vector<Organism> & brains, Game * pGame, int p, int generation, NNAI & ai)
 {
     int orgNum = 0;
 
@@ -254,9 +228,9 @@ void repopulate(vector<Tuple * > & brains, Game * pGame, int p, int generation, 
     for (int i = 0; i < brains.size(); i++)
     {
         // put the parent in as many times as its fitness
-        for (int j = 0; j < brains[i]->fitness; j++)
+        for (int j = 0; j < brains[i].fitness; j++)
         {
-            hopefulParents.push_back(brains[i]->pNet);
+            hopefulParents.push_back(brains[i].pNet);
         }
     }
 
@@ -298,35 +272,46 @@ void repopulate(vector<Tuple * > & brains, Game * pGame, int p, int generation, 
         if (babyFitness > pGame->getScore())
         {
             delete (*babies)[1];
-            Tuple * baby = new Tuple;
-            baby->pNet = (*babies)[0];
-            baby->fitness = babyFitness;
-            baby->generation = 2;
-            baby->name = ss.str();
+            (*babies)[1] = NULL;
+            Organism baby;
+            baby.pNet = (*babies)[0];
+            baby.fitness = babyFitness;
+            baby.generation = 2;
+            baby.name = ss.str();
             brains.push_back(baby);
 
-            cerr << "baby generated: " << baby->name << endl;
-            (*babies)[0]->outputNetwork();
-            cerr << endl << endl;
+            cerr << "baby topology size";
+            baby.pNet->topologySize();
+            cerr << "size in the list";
+            brains[brains.size() - 1].pNet->topologySize();
+
+            assert(baby.pNet == brains[brains.size() - 1].pNet);
         }
         else
         {
             delete (*babies)[0];
-            Tuple * baby = new Tuple;
-            baby->pNet = (*babies)[0];
-            baby->fitness = pGame->getScore();
-            baby->generation = 2;
-            baby->name = ss.str();
+            (*babies)[1] = NULL;
+            Organism baby;
+            baby.pNet = (*babies)[0];
+            baby.fitness = pGame->getScore();
+            baby.generation = 2;
+            baby.name = ss.str();
             brains.push_back(baby);
 
-            cerr << "baby generated: " << baby->name << endl;
-            (*babies)[1]->outputNetwork();
-            cerr << endl << endl;
+            cerr << "baby topology size";
+            baby.pNet->topologySize();
+            cerr << "size in the list";
+            brains[brains.size() - 1].pNet->topologySize();
+
+            assert(baby.pNet == brains[brains.size() - 1].pNet);
         }
 
         ss.str("");
         ss.clear();
 
         orgNum++;
+
+        assert(brains[brains.size() - 1].pNet != NULL);
+        brains[brains.size() - 1].pNet->topologySize();
     }
 }
