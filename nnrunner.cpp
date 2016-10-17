@@ -3,7 +3,6 @@
  ********************************************************/
 
 #include <Python.h>
-#include <iostream>
 #include <vector>
 #include "game.h"
 #include "neuralnetai.h"
@@ -43,7 +42,7 @@ nnrunner_run(PyObject * self, PyObject * args)
     if (!PyArg_ParseTuple(args, "s", &filename))
         return NULL;
     score = run(filename);
-    return PyLong_From_Long(score);
+    return PyLong_FromLong(score);
 }
 
 static PyMethodDef NnrunnerMethods[] = {
