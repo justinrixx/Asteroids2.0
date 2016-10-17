@@ -1,5 +1,8 @@
 /********************************************************
  * This a c++ module to be called from Python.
+ * To build:
+ * python3 setup.py build
+ * sudo python3 setup.py install
  ********************************************************/
 
 #include <Python.h>

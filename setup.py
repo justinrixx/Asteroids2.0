@@ -1,3 +1,8 @@
+"""
+To build this module:
+python3 setup.py build
+python3 setup.py install
+"""
 from distutils.core import setup, Extension
 
 module1 = Extension('nnrunner',
