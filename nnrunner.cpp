@@ -4,6 +4,7 @@
 
 #include <Python.h>
 #include <vector>
+#include <iostream>
 #include "game.h"
 #include "neuralnetai.h"
 
@@ -37,11 +38,11 @@ static int run(string filename)
 static PyObject *
 nnrunner_run(PyObject * self, PyObject * args)
 {
-    string filename;
+    char * filename;
     int score;
     if (!PyArg_ParseTuple(args, "s", &filename))
         return NULL;
-    score = run(filename);
+    score = run(string(filename));
     return PyLong_FromLong(score);
 }
 
