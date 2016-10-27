@@ -50,8 +50,8 @@ int main()
 {
     srand(clock());
 
-    testMutate();
-    return 0;
+    //testMutate();
+    //return 0;
 
     vector<double> outputs;
 
@@ -62,6 +62,14 @@ int main()
     topology.push_back(3);
 
     Network net(3, 3, topology);
+
+    string fname;
+    cout << "Filename: ";
+    cin  >> fname;
+    net.fromFile(fname);
+    net.outputNetwork();
+    net.toFile("test.net");
+    return 0;
 
     vector<double> inputs;
     inputs.push_back(1);

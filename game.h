@@ -19,7 +19,7 @@
 #define NUM_DEBRIS 4
 #define DEBRIS_RANDOM 2.0
 #define INFIN 999999.9
-#define NUM_CLOSEST_ROCKS 5
+#define NUM_CLOSEST_ROCKS 3
 
 #define GAME_OVER_OFFSET -45
 
@@ -84,7 +84,7 @@ class AI
 {
 public:
 	AI(Game * game) : isUpPressed(false), isLeftPressed(false), isRightPressed(false),
-		isSpacePressed(false), pGame(game) {};
+		isSpacePressed(false), isDownPressed(false), pGame(game) {};
 
 	/* Update the AI. Don't touch this. Your hook-in point is the move method */
 	void update(Ship & playerShip) { getClosestRocks(playerShip); move(playerShip); moveShip(playerShip); };
@@ -179,6 +179,7 @@ protected:
 	}
 	void moveShip(Ship & playerShip)
 	{
+		/* OLD REAL WAY
 		if (isRightPressed)
 			playerShip.setRotation(playerShip.getRotation() - 7);
 		if (isLeftPressed)
@@ -194,6 +195,16 @@ protected:
 		{
 			playerShip.setThrusting(false);
 		}
+		 */
+		// NEW EASY WAY
+		if (isRightPressed)
+			playerShip.setX(playerShip.getX() + 4);
+		if (isLeftPressed)
+			playerShip.setX(playerShip.getX() - 4);
+		if (isUpPressed)
+			playerShip.setY(playerShip.getY() + 4);
+		if (isDownPressed)
+			playerShip.setY(playerShip.getY() - 4);
 
 		if (isSpacePressed)
 		{
@@ -223,6 +234,8 @@ protected:
 	bool isLeftPressed;
 	bool isRightPressed;
 	bool isSpacePressed;
+
+	bool isDownPressed;
 };
 
 #endif // _GAME_H

@@ -36,7 +36,7 @@ int main(int argc, char ** argv)
     topology.push_back(10);
     topology.push_back(10);
 
-    Network net(31, 4, topology);
+    Network net(21, 5, topology);
 
     if (argc > 1)
         net.fromFile(argv[1]);

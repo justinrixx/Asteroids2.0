@@ -7,7 +7,7 @@
 #include "network.h"
 
 #define NETWORK_INPUTS 6 + (5 * NUM_CLOSEST_ROCKS)
-#define NETWORK_OUTPUTS 4
+#define NETWORK_OUTPUTS 5
 
 #ifndef _NNAI_H
 #define _NNAI_H
@@ -78,6 +78,7 @@ protected:
         isRightPressed = outputs[1] > 0;
         isUpPressed = outputs[2] > 0;
         isSpacePressed = outputs[3] > 0;
+        isDownPressed = outputs[4] > 0;
     }
 
 private:
