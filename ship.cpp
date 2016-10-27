@@ -16,6 +16,7 @@ void Ship :: update(const Interface * pUI, void * pGame)
 {
 	isThrusting = false;
 
+	/* OLD WAY
 	// rotate
 	if (pUI->isLeft())
 	{
@@ -33,6 +34,16 @@ void Ship :: update(const Interface * pUI, void * pGame)
     	mVector.setDy(mVector.getDy() + (.2 * cos(deg2rad(rotation))));
     	isThrusting = true;
 	}
+	*/
+	// NEW EASY WAY
+	if (pUI->isLeft())
+		mVector.setX(mVector.getX() - 4);
+	if (pUI->isRight())
+		mVector.setX(mVector.getX() + 4);
+	if (pUI->isUp())
+		mVector.setY(mVector.getY() + 4);
+	if (pUI->isDown())
+		mVector.setY(mVector.getY() - 4);
 	// fire a bullet
 	if (pUI->isSpace())
 	{

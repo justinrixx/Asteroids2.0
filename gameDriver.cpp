@@ -29,6 +29,7 @@ int main(int argc, char ** argv)
 {
     srand(clock());
     // instantiate the game object
+    bool fromFile = false;
     Game * pGame = new Game();
 
     vector<int> topology;
@@ -39,7 +40,10 @@ int main(int argc, char ** argv)
     Network net(21, 5, topology);
 
     if (argc > 1)
+    {
         net.fromFile(argv[1]);
+        fromFile = true;
+    }
 
     // instantiate an AI
     //SimpleAI ai(pGame);
@@ -47,7 +51,10 @@ int main(int argc, char ** argv)
     NNAI ai(pGame, net);
 
     // the game needs a reference to the AI
-    pGame->setAI(&ai);
+    if (fromFile)
+        pGame->setAI(&ai);
+    else
+        pGame->setAI(NULL);
 
     Interface ui(argc, argv, "Asteroids");
     ui.run(callBack, pGame);
