@@ -28,6 +28,9 @@ void Player :: update(const Interface * pUI, AI * pAI, void * pGame)
 		{
 			pAI->update(mShip);
 		}
+
+		if (invincibility > 0)
+			--invincibility;
 	}
 	// otherwise, the ship is dead
 	else

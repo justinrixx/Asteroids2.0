@@ -131,8 +131,8 @@ void Game :: update(const Interface * pUI)
 	{
 		for (itr = rocks.begin(); itr != rocks.end(); ++itr)
 		{
-			// make sure they are both alive
-			if (!(*itr)->isDead() && !mPlayer.isDead())
+			// make sure they are both alive and the player isn't invincible
+			if (!(*itr)->isDead() && !mPlayer.isInvincible())
 			{
 				if ((*itr)->getVector().minDistance(mPlayer.getVector()) <= ((*itr)->getSize() + SHIP_SIZE))
 				{

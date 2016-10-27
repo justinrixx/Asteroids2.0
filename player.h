@@ -12,6 +12,7 @@
 
  #define NULL_TICK -1
  #define TICK_DELAY 20
+#define INVINCIBILITY_FRAMES 40
 
 class AI;
 
@@ -39,16 +40,19 @@ public:
 	/* The game goes until there are no more lives */
 	bool isGameOver() { return !numLives; };
 
+	bool isInvincible() { return invincibility > 0; };
+
 	const Vector & getVector() const { return mShip.getVector(); };
 
 	void init(int numLives) { this->numLives = numLives; init(); };
 
 private:
-	void init() { mShip.init(); nextTick = NULL_TICK; };
+	void init() { mShip.init(); nextTick = NULL_TICK; invincibility = INVINCIBILITY_FRAMES; };
 
 	Ship mShip;
 	int numLives; // the number of lives
 	int nextTick; // the proper time to resurrect
+	int invincibility; // how many frames of invincibility are left
 };
 
  #endif // _PLAYER_H
