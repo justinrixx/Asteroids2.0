@@ -34,10 +34,7 @@ public:
 	// add a bullet
 	void addBullet(Bullet * pBullet)
 	{
-		if (bullets.size() < 6)
-			bullets.push_back(pBullet);
-		else
-			delete pBullet;
+		bullets.push_back(pBullet);
 	}
 
 	// add a rock
