@@ -3,7 +3,11 @@
 #include "game.h"
 #include "neuralnetai.h"
 
+#define MAX_FRAMES 1800
+
 using namespace std;
+
+int frames = 0;
 
 /*************************************
  * Super simple callback function. Just
@@ -19,6 +23,10 @@ void callBack(const Interface *pUI, void *p)
 
     // draw the game
     pGame->draw();
+
+    frames += 1;
+    if (frames >= MAX_FRAMES)
+        cout << "MAX FRAMES REACHED" << endl;
 }
 
 /***********************************************
@@ -36,7 +44,7 @@ int main(int argc, char ** argv)
     topology.push_back(10);
     topology.push_back(10);
 
-    Network net(21, 5, topology);
+    Network net(5, 3, topology);
 
     if (argc > 1)
         net.fromFile(argv[1]);

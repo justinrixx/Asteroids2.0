@@ -29,7 +29,7 @@ class Game
 {
 public:
 
-	Game() : mPlayer(), score(0), numSmallKilled(0), pAI(NULL) { addRock(new LRock()); addRock(new LRock()); };
+	Game() : mPlayer(), score(0), numSmallKilled(0), pAI(NULL) { /* addRock(new LRock()); */ addRock(new LRock()); };
 
 	// add a bullet
 	void addBullet(Bullet * pBullet)
@@ -62,6 +62,9 @@ public:
 
 	// get the rocks. used by the AI
 	std::list<Rock *> & getRocks() { return rocks; };
+
+	// get the first rock in the list. used by the AI
+	Rock * getRock() { return *(rocks.begin()); };
 
 	int getScore() { return score; };
 	int getNumBullets() { return bullets.size(); };
@@ -117,7 +120,7 @@ protected:
 
 	/* Don't touch these */
 	void getClosestRocks(Ship & playerShip)
-	{
+	{/*
 		double distances[NUM_CLOSEST_ROCKS];
 
 		std::list<Rock *> rocks = pGame->getRocks();
@@ -170,7 +173,7 @@ protected:
 				else
 					break;
 			}
-		}
+		}*/
 	}
 	/* Not real distance, but we're just using it to see what's closest */
 	double getDistance(float x1, float y1, float x2, float y2)
@@ -198,13 +201,9 @@ protected:
 		 */
 		// NEW EASY WAY
 		if (isRightPressed)
-			playerShip.setX(playerShip.getX() + 4);
+			playerShip.setRotation(playerShip.getRotation() - 7);
 		if (isLeftPressed)
-			playerShip.setX(playerShip.getX() - 4);
-		if (isUpPressed)
-			playerShip.setY(playerShip.getY() + 4);
-		if (isDownPressed)
-			playerShip.setY(playerShip.getY() - 4);
+			playerShip.setRotation(playerShip.getRotation() + 7);
 
 		if (isSpacePressed)
 		{

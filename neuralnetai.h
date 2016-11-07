@@ -6,8 +6,8 @@
 #include "game.h"
 #include "network.h"
 
-#define NETWORK_INPUTS 6 + (5 * NUM_CLOSEST_ROCKS)
-#define NETWORK_OUTPUTS 5
+#define NETWORK_INPUTS 5
+#define NETWORK_OUTPUTS 3
 
 #ifndef _NNAI_H
 #define _NNAI_H
@@ -41,15 +41,16 @@ protected:
         }
 
         // set the ship values
-        inputs.push_back(playerShip.getX());
-        inputs.push_back(playerShip.getY());
-        inputs.push_back(playerShip.getDx());
-        inputs.push_back(playerShip.getDy());
+        //inputs.push_back(playerShip.getX());
+        //inputs.push_back(playerShip.getY());
+        //inputs.push_back(playerShip.getDx());
+        //inputs.push_back(playerShip.getDy());
         inputs.push_back(playerShip.getRotation());
 
-        inputs.push_back(pGame->getNumBullets());
+        //inputs.push_back(pGame->getNumBullets());
 
         // set the rock values
+        /*
         for (int i = 0; i < NUM_CLOSEST_ROCKS; i++)
         {
             if (closestRocks[i] == NULL)
@@ -67,18 +68,25 @@ protected:
                 inputs.push_back(closestRocks[i]->getDy());
                 inputs.push_back(closestRocks[i]->getSize());
             }
-        }
+        }*/
+
+        // the rock's info
+        Rock * r = pGame->getRock();
+        inputs.push_back(r->getX());
+        inputs.push_back(r->getY());
+        inputs.push_back(r->getDx());
+        inputs.push_back(r->getDy());
 
         // feed forward into the neural net
         mNetwork.getOutputs(outputs, inputs);
 
         // set the variables based on the outputs
-        assert(outputs.size() > 3);
+        //assert(outputs.size() > 3);
         isLeftPressed = outputs[0] > 0;
         isRightPressed = outputs[1] > 0;
-        isUpPressed = outputs[2] > 0;
-        isSpacePressed = outputs[3] > 0;
-        isDownPressed = outputs[4] > 0;
+        //isUpPressed = outputs[2] > 0;
+        isSpacePressed = outputs[2] > 0;
+        //isDownPressed = outputs[4] > 0;
     }
 
 private:

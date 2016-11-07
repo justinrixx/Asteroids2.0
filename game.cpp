@@ -63,7 +63,8 @@ void Game :: update(const Interface * pUI)
 			{
 				if ((*itr)->getVector().minDistance((*itb)->getVector()) <= (*itr)->getSize())
 				{
-					Rock * src = *itr;
+					//Rock * src = *itr;
+					/*
 					// large rock, add two medium ones
 					if ((*itr)->getSize() == LARGE_SIZE)
 					{
@@ -98,10 +99,11 @@ void Game :: update(const Interface * pUI)
 					{
 						numSmallKilled += 1;
 						if (numSmallKilled % LARGE_SPAWN == 0)
-						{
+						{*/
 							// spawn a large one
 							addRock(new LRock());
-						}
+							score += 1;
+						/*}
 
 						score += SMALL_POINTS;
 					}
@@ -116,7 +118,7 @@ void Game :: update(const Interface * pUI)
 						p->setDy(src->getDy() + random(-DEBRIS_RANDOM, DEBRIS_RANDOM));
 
 						addDebris(p);
-					}
+					}*/
 
 					// kill them both
 					(*itr)->kill();
@@ -136,6 +138,9 @@ void Game :: update(const Interface * pUI)
 			{
 				if ((*itr)->getVector().minDistance(mPlayer.getVector()) <= ((*itr)->getSize() + SHIP_SIZE))
 				{
+					addRock(new LRock());
+					score += 1;
+					/*
 					Rock * src = *itr;
 					// large rock, add two medium ones
 					if ((*itr)->getSize() == LARGE_SIZE)
@@ -182,7 +187,7 @@ void Game :: update(const Interface * pUI)
 
 						addDebris(p);
 					}
-
+				*/
 					// kill the rock and the ship
 					(*itr)->kill();
 					mPlayer.kill();
@@ -289,5 +294,5 @@ void Game::reset()
 	debris.clear();
 
 	addRock(new LRock());
-	addRock(new LRock());
+	//addRock(new LRock());
 }

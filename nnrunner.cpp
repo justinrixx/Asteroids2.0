@@ -11,6 +11,8 @@
 #include "game.h"
 #include "neuralnetai.h"
 
+#define MAX_FRAMES 1800
+
 using namespace std;
 
 /**************************************************
@@ -18,6 +20,8 @@ using namespace std;
  *************************************************/
 static int run(string filename)
 {
+    int frames = 0;
+
     srand(clock());
     Game * pGame = new Game();
 
@@ -32,8 +36,11 @@ static int run(string filename)
 
     pGame->setAI(&ai);
 
-    while (!pGame->isGameOver())
+    while (!pGame->isGameOver() && frames < MAX_FRAMES)
+    {
         pGame->update(NULL);
+        ++frames;
+    }
 
     return pGame->getScore();
 }
